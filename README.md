@@ -1,2 +1,2 @@
 # inbox
-Collection Box
+mDev's Collection Box
