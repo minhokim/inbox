@@ -4,7 +4,6 @@ printf "Type Your Answer [y/n]: "
 
 # 현재 터미널 설정을 셸 변수 tty_state에 백업하고
 # 터미널을 raw 설정함
-
 tty_state=$(stty -g)
 stty raw
 char=$(dd bs=1 count=1 2> /dev/null)
