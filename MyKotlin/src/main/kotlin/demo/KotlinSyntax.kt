@@ -107,10 +107,32 @@ fun iterateRange() {
     for (x in 9 downTo 0 step 3) {
         print(x)
     }
+    println()
+    println("----- END -----")
+
 }
 
 //Collections
+fun collections() {
+    val items = listOf("apple", "banana", "kiwifruit")
+    for (item in items) {
+        println(item)
+    }
 
+    when {
+        "orange" in items -> println("juicy")
+        "apple" in items -> println("apple is fine too")
+    }
+
+    println("-------------------------")
+
+    val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
+    fruits
+        .filter { it.startsWith("a") }
+        .sortedBy { it }
+        .map { it.uppercase() }
+        .forEach { println(it) }
+}
 
 
 fun main() {
@@ -150,4 +172,7 @@ fun main() {
 
     //Iterate range
     iterateRange()
+
+    //Collections
+    collections()
 }
