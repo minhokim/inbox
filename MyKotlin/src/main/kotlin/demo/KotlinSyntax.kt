@@ -35,26 +35,35 @@ fun maxOf2(a: Int, b: Int) = if (a > b) a else b
 
 //for loop
 fun forLoop() {
+    println("----- forLoop START -----")
     val items = listOf("apple", "banana", "kiwifruit")
     for (item in items) {
         println(item)
     }
+    println("----- forLoop END -----")
+    println()
 }
 
 fun forLoop2() {
+    println("----- forLoop2 START -----")
     val items = listOf("apple", "banana", "kiwifruit")
     for (index in items.indices) {
         println("for : item at $index is ${items[index]}")
     }
+    println("----- forLoop2 END -----")
+    println()
 }
 
 fun whileLoop() {
+    println("----- whileLoop START -----")
     val items = listOf("apple", "banana", "kiwifruit")
     var index = 0
     while (index < items.size) {
         println("while : item at $index is ${items[index]}")
         index++
     }
+    println("----- whileLoop END -----")
+    println()
 }
 
 //when expressions
@@ -69,6 +78,7 @@ fun describe(obj: Any): String =
 
 //Ranges
 fun range() {
+    println("----- range START -----")
     val x = 10
     val y = 9
     if (x in 1..9) {
@@ -76,10 +86,13 @@ fun range() {
     } else {
         println("fits in not range")
     }
+    println("----- range END -----")
+    println()
 }
 
 //number is out of range
 fun outOfRange() {
+
     val list = listOf("a", "b", "c")
 
     if (-1 !in 0..list.lastIndex) {
@@ -94,6 +107,7 @@ fun outOfRange() {
 
 //Iterate over a range
 fun iterateRange() {
+    println("----- iterateRange START -----")
     for (x in 1..5) {
         print(x)
     }
@@ -108,12 +122,13 @@ fun iterateRange() {
         print(x)
     }
     println()
-    println("----- END -----")
+    println("----- iterateRange END -----")
 
 }
 
 //Collections
 fun collections() {
+    println("----- collections START -----")
     val items = listOf("apple", "banana", "kiwifruit")
     for (item in items) {
         println(item)
@@ -132,6 +147,35 @@ fun collections() {
         .sortedBy { it }
         .map { it.uppercase() }
         .forEach { println(it) }
+    println("----- collections END -----")
+}
+
+//Nullable Values and null checks
+fun parseInt(str: String): Int? {
+    println("----- parseInt START -----")
+    try {
+        val num: Int = str.toInt();
+        println("num: $num")
+        return num
+    } catch (e: NumberFormatException) {
+        println("Not Number: $str")
+        return 0
+    }
+    println("----- parseInt END -----")
+}
+
+fun printProduct(arg1: String, arg2: String) {
+    println("----- printProduct START -----")
+    val x = parseInt(arg1)
+    val y = parseInt(arg2)
+
+    if (x != null && y != null) {
+        println(x * y)
+    }
+    else {
+        println("'$arg1' or '$arg2' is not a number")
+    }
+    println("----- printProduct END -----")
 }
 
 
@@ -175,4 +219,6 @@ fun main() {
 
     //Collections
     collections()
+
+    printProduct("2", "3")
 }
