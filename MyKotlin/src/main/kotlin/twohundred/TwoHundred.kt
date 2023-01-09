@@ -174,6 +174,30 @@ fun getAvg(a: Int, b: Int): Double {
     return (a + b) / 2.0
 }
 
+//디폴트 인수
+fun defaultParam(a:Int = 0, b:Int = 0, print:Boolean = false):Double {
+    println("----- defaultParam -----")
+    val result = (a + b) / 2.0
+    if(print) {
+        println(result)
+    }
+    println()
+    return result
+}
+
+//가변 인수
+fun getSumOf(vararg numbers:Int):Int {
+    println("----- getSumOf -----")
+    val count = numbers.size
+    var i = 0; var sum = 0
+
+    while(i < count) {
+        sum += numbers[i]
+        i++
+    }
+    return sum
+}
+
 fun main(args: Array<String>): Unit {
     doubleCheck()
     inDeOperator()
@@ -191,4 +215,16 @@ fun main(args: Array<String>): Unit {
     println("myFun2: "+ myFun2())
     println("myFun3: " + myFun3())
     println("getAvg: " + getAvg(3, 7))
+    //디폴트 인수
+    println(defaultParam(89, 96))
+    defaultParam(100, 50, true)
+    println(defaultParam(90))
+    defaultParam(66, print = true)
+    defaultParam(print = true)
+    defaultParam(print = true, a = 10, b = 30)
+
+    //가변 인수
+    println(getSumOf(1,2,3,4,5,6,7))
+    println(getSumOf(32,57,12))
+    println(getSumOf())
 }
