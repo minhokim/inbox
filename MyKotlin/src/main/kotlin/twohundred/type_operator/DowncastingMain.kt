@@ -17,3 +17,4 @@ fun main() {
     person3 = person2 as? Student
     println(person3?.name)
 }
+
