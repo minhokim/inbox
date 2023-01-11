@@ -1,4 +1,4 @@
-package twohundred
+package twohundred.constructor
 
 class ConstructorMain constructor(name:String, age:Int) {
     val name:String

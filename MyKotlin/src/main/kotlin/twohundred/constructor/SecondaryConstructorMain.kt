@@ -1,4 +1,4 @@
-package twohundred
+package twohundred.constructor
 
 class SecondaryConstructorMain(val second:Int) {
     init {
