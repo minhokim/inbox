@@ -1,4 +1,4 @@
-package twohundred
+package twohundred.constructor
 
 class InConstructorMain(val name:String, val speed:Int = 0)
 

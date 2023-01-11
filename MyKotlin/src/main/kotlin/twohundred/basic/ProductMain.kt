@@ -1,16 +1,16 @@
-package twohundred
+package twohundred.basic
 
 class ProductMain {
 }
 
 fun main(args:Array<String>) {
-    val product:Product = createProduct()
+    val product: Product = createProduct()
     printProductInfo(product)
     processProduct(product)
     printProductInfo(product)
 }
 
-fun createProduct():Product {
+fun createProduct(): Product {
     val apple = Product()
     apple.name = "Apple"
     apple.price = 1000
@@ -18,11 +18,11 @@ fun createProduct():Product {
     return apple
 }
 
-fun processProduct(product:Product) {
+fun processProduct(product: Product) {
     product.price += 500
 }
 
-fun printProductInfo(product:Product) {
+fun printProductInfo(product: Product) {
     println("이름: ${product.name}")
     println("가격: ${product.price}")
 }

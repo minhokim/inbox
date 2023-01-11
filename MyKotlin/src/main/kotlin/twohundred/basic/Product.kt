@@ -1,4 +1,4 @@
-package twohundred
+package twohundred.basic
 
 class Product {
     var name = ""
