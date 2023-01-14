@@ -7,12 +7,12 @@ class AccessModifierPrivateTest {
 private var num = 10
 
 //Test 파일 내에서만 접근 가능
-private fun print() = println(num)
+private fun printNum() = println(num)
 
 //어디서나 접근 가능
 public fun hello(value:Int) {
     num = value
-    print()
+    printNum()
 }
 
 public class Person(age:Int) {

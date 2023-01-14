@@ -9,6 +9,7 @@ fun main() {
     println("start")
     val i:Int = throwing()
     println(i)
+//    validate(-1)
 }
 
 fun validate(num:Int) {
