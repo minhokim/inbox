@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Inline Event</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <style>
+            .layout1 {margin: 30px 30px 30px 30px;}
+        </style>
+        <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="example" class="container layout1">
+            <p><input type="text" v-model="amount" class="form-control" /></p>
+            <p>
+                <!-- <button id="deposit" @click="balance += parseInt(amount)" class="btn btn-primary">예금</button>
+                <button id="withdraw" @click="balance -= parseInt(amount)" class="btn btn-primary">인출</button> -->
+                <button id="deposit" @click="deposit" class="btn btn-primary">예금</button>
+                <button id="withdraw" @click="withdraw" class="btn btn-primary">인출</button>
+            </p>
+            <h3>계좌 잔고 : {{ balance }}</h3>
+        </div>
+
+        <script type="text/javascript">
+            var vm = new Vue({
+                el : "#example",
+                data : {
+                    amount : 0,
+                    balance : 0,
+                },
+                methods: {
+                    deposit : function(e) {
+                        console.log('e : ', e)
+                        var amt = parseInt(this.amount);
+                        if (amt <= 0) {
+                            alert("0 이상의 값");
+                        } else {
+                            this.balance += amt;
+                        }
+                    },
+                    withdraw : function(e) {
+                        var amt = parseInt(this.amount);
+                        if (amt <= 0) {
+                            alert("0 이상의 값 인출");
+                        } else if (amt > this.balance) {
+                            alert("잔고보다 많은 금액 인출X");                            
+                        } else {
+                            this.balance -= amt;
+                        }
+                    }
+                
+                }
+            })
+        </script>
+    </body>
+</html>
