@@ -9,9 +9,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MapTest {
-
-
+public class MapPutTest {
     @Test
     public void putIfAbsent() {
         Map<String, Integer> map = new HashMap<>();
