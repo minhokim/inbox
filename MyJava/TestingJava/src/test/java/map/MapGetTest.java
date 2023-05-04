@@ -13,25 +13,37 @@ public class MapGetTest {
 
     @Test
     public void entrySet() {
+        System.out.println("----- entrySet -----");
         Map<String, String> map = new HashMap<>();
         map.put("apple", "APPLE");
         map.put("orange", "ORANGE");
         map.put("banana", "BANANA");
 
-        // entrySet()
         for (Map.Entry<String, String> entry : map.entrySet()) {
             System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
         }
-        System.out.println("-------------------------------------------------------");
+    }
+    @Test
+    public void keySet() {
+        System.out.println("----- keySet -----");
+        Map<String, String> map = new HashMap<>();
+        map.put("apple", "APPLE");
+        map.put("orange", "ORANGE");
+        map.put("banana", "BANANA");
 
-        // keySet()
         for (String key : map.keySet()) {
             String value = map.get(key);
             System.out.println("key : " + key + ", value : " + value);
         }
-        System.out.println("-------------------------------------------------------");
+    }
+    @Test
+    public void entrySetIterator() {
+        System.out.println("----- entrySet().iterator() -----");
+        Map<String, String> map = new HashMap<>();
+        map.put("apple", "APPLE");
+        map.put("orange", "ORANGE");
+        map.put("banana", "BANANA");
 
-        // entrySet().iterator()
         Iterator<Map.Entry<String, String>> entryIterator = map.entrySet().iterator();
         while (entryIterator.hasNext()) {
             Map.Entry<String, String> entry = entryIterator.next();
@@ -39,40 +51,77 @@ public class MapGetTest {
             String value = entry.getValue();
             System.out.println("key : " + key + ", value : " + value);
         }
-        System.out.println("-------------------------------------------------------");
+    }
+    @Test
+    public void keySetIterator() {
+        System.out.println("----- keySet().iterator() -----");
+        Map<String, String> map = new HashMap<>();
+        map.put("apple", "APPLE");
+        map.put("orange", "ORANGE");
+        map.put("banana", "BANANA");
 
-        // keySet().iterator()
         Iterator<String> keyIterator = map.keySet().iterator();
         while (keyIterator.hasNext()) {
             String key = keyIterator.next();
             String value = map.get(key);
             System.out.println("key : " + key + ", value : " + value);
         }
-        System.out.println("-------------------------------------------------------");
+    }
+    @Test
+    public void lambda() {
+        System.out.println("----- Lambda -----");
+        Map<String, String> map = new HashMap<>();
+        map.put("apple", "APPLE");
+        map.put("orange", "ORANGE");
+        map.put("banana", "BANANA");
 
-        // Lambda
         map.forEach((key, value) -> {
             System.out.println("key : " + key + ", value : " + value);
         });
-        System.out.println("-------------------------------------------------------");
+    }
 
-        // Stream
+    @Test
+    public void stream() {
+        System.out.println("----- Stream -----");
+        Map<String, String> map = new HashMap<>();
+        map.put("apple", "APPLE");
+        map.put("orange", "ORANGE");
+        map.put("banana", "BANANA");
+
         map.entrySet().stream().forEach(entry -> {
             System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
         });
-        System.out.println("-------------------------------------------------------");
+    }
 
-        // Stream sort asc
+    @Test
+    public void streamSortAsc() {
+        System.out.println("----- streamSortAsc -----");
+        Map<String, String> map = new HashMap<>();
+        map.put("apple", "APPLE");
+        map.put("orange", "ORANGE");
+        map.put("banana", "BANANA");
+
         map.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
             System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
         });
-        System.out.println("-------------------------------------------------------");
+    }
 
-        // Stream sort desc
+    @Test
+    public void streamSortDesc() {
+        System.out.println("----- streamSortDesc -----");
+        Map<String, String> map = new HashMap<>();
+        map.put("apple", "APPLE");
+        map.put("orange", "ORANGE");
+        map.put("banana", "BANANA");
+
         map.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder())).forEach(entry -> {
             System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
         });
-        System.out.println("-------------------------------------------------------");
-
     }
+
+
+
+
+
+
 }
