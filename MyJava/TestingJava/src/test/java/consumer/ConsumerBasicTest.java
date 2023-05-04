@@ -48,7 +48,7 @@ public class ConsumerBasicTest {
     }
 
     @Test
-    public void consumerAndThen() {
+    public void consumerAndThenEx() {
         var vals = new ArrayList<Integer>();
         vals.add(2);
         vals.add(4);
@@ -66,6 +66,15 @@ public class ConsumerBasicTest {
     }
 
     @Test
+    public void consumerAndThenEx2() {
+        Consumer<Integer> c1 = i -> System.out.println(5 * i);
+        Consumer<Integer> c2 = i -> System.out.println(5 + i);
+
+        c1.andThen(c2).accept(4);
+        c1.andThen(i -> System.out.println(3 * i)).accept(4);
+    }
+
+    @Test
     public void consumerEx3() {
         var data = List.of(1, 2, 3, 4, 5, 6, 7);
 
@@ -74,6 +83,20 @@ public class ConsumerBasicTest {
         forEach(data, consumer);
         System.out.println("----------------");
         forEach(data, System.out::println);
+    }
+
+    @Test
+    public void consumerEx4() {
+        var list = List.of(10, 20, 30, 40, 50);
+
+//        Consumer<List<Integer>> consumer = (List<Integer> x) -> addList(x);
+        Consumer<List<Integer>> consumer = ConsumerBasicTest::addList;
+        consumer.accept(list);
+    }
+
+    static void addList(List<Integer> list) {
+        int result = list.stream().mapToInt(Integer::intValue).sum();
+        System.out.println("Sum : " + result);
     }
 
     static <T> void forEach(List<T> list, Consumer<T> consumer) {
