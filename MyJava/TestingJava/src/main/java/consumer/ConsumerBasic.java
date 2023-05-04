@@ -23,6 +23,15 @@ public class ConsumerBasic {
 
         process(products, inPrice.andThen(System.out::println));
 
+        // Refering Method
+        Consumer<String> consumer1 = ConsumerBasic::printMessage;
+//        Consumer<String> consumer1 = (String x) -> printMessage(x);
+        consumer1.accept("Ron");
+
+    }
+
+    private static void printMessage(String name) {
+        System.out.println("Hello " + name);
     }
 
     private static BigDecimal rounded(BigDecimal number){
