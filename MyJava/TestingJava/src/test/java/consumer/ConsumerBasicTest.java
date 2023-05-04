@@ -11,14 +11,12 @@ public class ConsumerBasicTest {
 
     @Test
     public void basicStep1() {
-        System.out.println("----- basicStep1 -----");
         Consumer<String> print = (String x) -> System.out.println(x);
         print.accept("java");
     }
 
     @Test
     public void basicStep2() {
-        System.out.println("----- basicStep2 -----");
         List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
 
         Consumer<Integer> consumer = (Integer x) -> System.out.println(x);
@@ -27,7 +25,6 @@ public class ConsumerBasicTest {
 
     @Test
     public void basicStep3() {
-        System.out.println("----- basicStep3 -----");
         List<String> list = Arrays.asList("a", "ab", "abc");
         forEach(list, (String x) -> System.out.println(x.length()));
     }
