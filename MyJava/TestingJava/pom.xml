@@ -47,6 +47,11 @@
             <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>8.7.1</version>
+        </dependency>
     </dependencies>
 
 </project>
