@@ -2,6 +2,7 @@ package consumer;
 
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,8 +70,9 @@ public class ConsumerBasicTest {
     public void consumerAndThenEx2() {
         Consumer<Integer> c1 = i -> System.out.println(5 * i);
         Consumer<Integer> c2 = i -> System.out.println(5 + i);
+        Consumer<Integer> c3 = i -> System.out.println(i);
 
-        c1.andThen(c2).accept(4);
+        c1.andThen(c2).andThen(c3).accept(4);
         c1.andThen(i -> System.out.println(3 * i)).accept(4);
     }
 
