@@ -1,13 +1,21 @@
 package datetime;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class DatetimeTest {
 
@@ -53,9 +61,42 @@ public class DatetimeTest {
 
     @Test
     public void myTest() {
-        Instant now = Instant.now();
-        org.joda.time.Instant now2 = org.joda.time.Instant.now();
-        System.out.println("Now : " + now);
-        System.out.println("Joda Now : " + now2);
+        String strDate = "2023-05-17 14:51:05";
+        Timestamp timestamp = Timestamp.valueOf(strDate);
+        System.out.println("Timestamp : " + timestamp);
+
+        ZonedDateTime zdDtSeoul = timestamp.toLocalDateTime().atZone(ZoneId.of("Asia/Seoul"));
+        System.out.println("zdDt : " + zdDtSeoul);
+
+        Instant instant = zdDtSeoul.toInstant();
+        System.out.println("instant : " + instant);
+
+    }
+
+    @Test
+    public void strDateToDateTimeUTC() {
+        String strDate = "2023-05-17 14:51:05";
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime dt = formatter.parseDateTime(strDate).toDateTime(DateTimeZone.UTC);
+        System.out.println("DT : " + dt);
+
+    }
+
+    @Test
+    public void UtcToTimestamp() {
+        DateTime utcDt = DateTime.now(DateTimeZone.UTC);
+        System.out.println("UTC DT : " + utcDt);
+        System.out.println("UTC DT Milli : " + utcDt.getMillis());
+
+        System.out.println("Timestamp1 : " + new Timestamp(DateTime.now(DateTimeZone.UTC).getMillis()));
+        System.out.println("Timestamp2 : " + new Timestamp(DateTime.now().getMillis()));
+
+        DateTime dt = DateTime.now();
+        System.out.println("DT : " + dt);
+        System.out.println("DT Milli : " + dt.getMillis());
+        System.out.println("Timestamp DT Milli : " + new Timestamp(dt.getMillis()));
+
+        DateTimeZone zoneDefault = DateTimeZone.getDefault();
+        System.out.println("zoneDefault : " + zoneDefault);
     }
 }
