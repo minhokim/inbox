@@ -9,7 +9,7 @@ public class Base64Test {
     @Test
     public void encode() {
         //Encode
-        String orgInput = "Dream";
+        String orgInput = "STA_CH_001:test1234";
         String encodingStr = Base64.getEncoder().encodeToString(orgInput.getBytes());
         System.out.println("encodingStr : " + encodingStr);
 

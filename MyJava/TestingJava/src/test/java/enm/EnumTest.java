@@ -12,4 +12,5 @@ public class EnumTest {
         System.out.println("status : " + UploadLogStatus.fromValue("Idle"));
     }
 
+
 }
