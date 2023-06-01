@@ -7,7 +7,7 @@ import java.util.Base64;
 public class Base64Test {
 
     @Test
-    public void encode() {
+    public void encodeDecode() {
         //Encode
         String orgInput = "STA_CH_001:test1234";
         String encodingStr = Base64.getEncoder().encodeToString(orgInput.getBytes());
@@ -17,6 +17,5 @@ public class Base64Test {
         byte[] decodedBytes = Base64.getDecoder().decode(encodingStr);
         String decodedStr = new String(decodedBytes);
         System.out.println("decodedStr : " + decodedStr);
-
     }
 }

@@ -5,19 +5,23 @@ import org.junit.jupiter.api.Test;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 public class HashTest {
     @Test
     public void sha256Hash() {
         String passwordToHash = "test1234";
-        byte[] salt = getSalt();
+        byte[] encodedHash = getHashValue(passwordToHash);
+        System.out.println("encodedHash : " + encodedHash);
+        System.out.println("hex : " + bytesToHex(encodedHash));
+    }
+
+    private static byte[] getHashValue(String value) {
         try {
+            byte[] salt = getSalt();
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             digest.update(salt);
-            byte[] encodedHash = digest.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
-            System.out.println("encodedHash : " + encodedHash);
-            System.out.println("hex : " + bytesToHex(encodedHash));
+            byte[] encodedHash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
+            return encodedHash;
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -27,7 +31,7 @@ public class HashTest {
         /*SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);*/
-        String str = "STA_CH_001";
+        String str = "salt_value";
         byte salt[] = str.getBytes();
         return salt;
     }
