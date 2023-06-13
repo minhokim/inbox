@@ -20,13 +20,13 @@ public class MutualTlsTest {
 
     @Test
     public void webSocketMutualTls() {
-        final String TRUST_STORE = "/jks/truststore.p12";
+        final String TRUST_STORE = "/jks/server_truststore.jks";
         final String TRUST_STORE_PASSWORD = "qwer1234";
-        final String TRUST_STORE_TYPE = "PKCS12";
-        final String KEY_STORE = "/jks/client_keystore.p12";
+        final String TRUST_STORE_TYPE = "JKS";
+        final String KEY_STORE = "/jks/client_keystore.jks";
         final String KEY_STORE_PASSOWRD = "qwer1234";
-        final String KEY_STORE_TYPE = "PKCS12";
-        final String SERVER_ENDPOINT = "wss://bgp.net:6080/rest/ocpp/STA_CH_001";
+        final String KEY_STORE_TYPE = "JKS";
+        final String SERVER_ENDPOINT = "wss://localhost:6080/rest/ocpp/STA_CH_001";
 
         KeyStore keyStore = null;
         KeyStore trustStore = null;
@@ -69,13 +69,13 @@ public class MutualTlsTest {
 
     @Test
     public void httpClientMutualTls() throws KeyManagementException {
-        final String TRUST_STORE = "/jks/truststore.p12";
+        final String TRUST_STORE = "/jks/server_truststore.jks";
         final String TRUST_STORE_PASSWORD = "qwer1234";
-        final String TRUST_STORE_TYPE = "PKCS12";
-        final String KEY_STORE = "/jks/client_keystore.p12";
+        final String TRUST_STORE_TYPE = "JKS";
+        final String KEY_STORE = "/jks/client_keystore.jks";
         final String KEY_STORE_PASSOWRD = "qwer1234";
-        final String KEY_STORE_TYPE = "PKCS12";
-        final String SERVER_ENDPOINT = "https://bgp.net:6080/rest/tls";
+        final String KEY_STORE_TYPE = "JKS";
+        final String SERVER_ENDPOINT = "https://localhost:6080/rest/tls";
 
         KeyStore keyStore = null;
         KeyStore trustStore = null;
