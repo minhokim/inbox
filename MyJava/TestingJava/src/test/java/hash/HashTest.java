@@ -9,9 +9,8 @@ import java.security.NoSuchAlgorithmException;
 public class HashTest {
     @Test
     public void sha256Hash() {
-        String passwordToHash = "test1234";
+        String passwordToHash = "password";
         byte[] encodedHash = getHashValue(passwordToHash);
-        System.out.println("encodedHash : " + encodedHash);
         System.out.println("hex : " + bytesToHex(encodedHash));
     }
 
@@ -31,7 +30,7 @@ public class HashTest {
         /*SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);*/
-        String str = "salt_value";
+        String str = "STAR";
         byte salt[] = str.getBytes();
         return salt;
     }
