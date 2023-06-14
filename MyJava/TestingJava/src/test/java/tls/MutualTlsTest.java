@@ -107,7 +107,7 @@ public class MutualTlsTest {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(SERVER_ENDPOINT))
-                    .header("Authorization", "I-ON-EV")
+                    .header("Authorization", "TEST")
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
