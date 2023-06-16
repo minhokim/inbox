@@ -20,13 +20,13 @@ public class MutualTlsTest {
 
     @Test
     public void webSocketMutualTls() {
-        final String TRUST_STORE = "/jks/server_truststore.jks";
+        final String TRUST_STORE = "/jks/client_truststore.jks";
         final String TRUST_STORE_PASSWORD = "qwer1234";
         final String TRUST_STORE_TYPE = "JKS";
         final String KEY_STORE = "/jks/client_keystore.jks";
         final String KEY_STORE_PASSOWRD = "qwer1234";
         final String KEY_STORE_TYPE = "JKS";
-        final String SERVER_ENDPOINT = "wss://localhost:6080/rest/ocpp/STA_CH_001";
+        final String SERVER_ENDPOINT = "wss://domain.net:6080/rest/ocpp/STA_CH_001";
 
         KeyStore keyStore = null;
         KeyStore trustStore = null;
@@ -69,13 +69,13 @@ public class MutualTlsTest {
 
     @Test
     public void httpClientMutualTls() throws KeyManagementException {
-        final String TRUST_STORE = "/jks/server_truststore.jks";
+        final String TRUST_STORE = "/jks/client_truststore.jks";
         final String TRUST_STORE_PASSWORD = "qwer1234";
         final String TRUST_STORE_TYPE = "JKS";
         final String KEY_STORE = "/jks/client_keystore.jks";
         final String KEY_STORE_PASSOWRD = "qwer1234";
         final String KEY_STORE_TYPE = "JKS";
-        final String SERVER_ENDPOINT = "https://localhost:6080/rest/tls";
+        final String SERVER_ENDPOINT = "https://domain.net:6080/rest/tls";
 
         KeyStore keyStore = null;
         KeyStore trustStore = null;
@@ -94,7 +94,7 @@ public class MutualTlsTest {
             final TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             tmf.init(trustStore);
 
-            final SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+            final SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
             sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 
             SSLParameters sslParameters = new SSLParameters();
@@ -107,7 +107,7 @@ public class MutualTlsTest {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(SERVER_ENDPOINT))
-                    .header("Authorization", "TEST")
+                    .header("Authorization", "I-ON-EV")
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
