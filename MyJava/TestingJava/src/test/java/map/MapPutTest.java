@@ -52,6 +52,7 @@ public class MapPutTest {
         assertThat(map.get("Peter")).isEqualTo(40 + 50);
     }
 
+
     @Test
     public void computeIfPresent() {
         Map<String, Integer> map = new HashMap<>();
@@ -63,6 +64,16 @@ public class MapPutTest {
         // key가 존재하지 않는 경우 null을 반환한다.
         map.computeIfPresent("Kelly", (k, v) -> v + 10);
         assertThat(map.get("Kelly")).isNull();
+    }
+
+    @Test
+    public void computeIfPresentTest() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("John", 20);
+        map.put("Paul", 30);
+        map.put("Peter", 40);
+        map.computeIfAbsent("John1", s -> 201);
+        assertThat(map.get("John1")).isEqualTo(201);
     }
 
     @Test
