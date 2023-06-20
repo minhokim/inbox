@@ -1,0 +1,3 @@
+create user bgp password 'qwer1234';
+grant bgp to postgres;
+create database bgp owner bgp template template0 LC_COLLATE 'C';

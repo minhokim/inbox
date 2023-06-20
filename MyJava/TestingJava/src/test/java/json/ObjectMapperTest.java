@@ -93,6 +93,7 @@ public class ObjectMapperTest {
             JsonNode jsonNodeRoot = objectMapper.readTree(jsonString);
             JsonNode jsonNodeYear = jsonNodeRoot.get("year");
             String year = jsonNodeYear.asText();
+            System.out.println("car : " + car);
             System.out.println("year : " + year);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

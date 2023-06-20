@@ -1,4 +1,4 @@
-package net.bgp.config.websocket;
+package net.bgp.ws;
 
 import net.bgp.utils.Functions;
 import net.bgp.ws.WebSocketEndpoint;
