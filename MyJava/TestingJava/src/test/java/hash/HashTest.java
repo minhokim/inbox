@@ -9,9 +9,14 @@ import java.security.NoSuchAlgorithmException;
 public class HashTest {
     @Test
     public void sha256Hash() {
-        String passwordToHash = "password";
+        String passwordToHash = "test1234";
         byte[] encodedHash = getHashValue(passwordToHash);
         System.out.println("hex : " + bytesToHex(encodedHash));
+    }
+
+    @Test
+    public void getHex() {
+        System.out.println(String.format("%02x", 10000));
     }
 
     private static byte[] getHashValue(String value) {
