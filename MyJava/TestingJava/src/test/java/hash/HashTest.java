@@ -35,7 +35,7 @@ public class HashTest {
         /*SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);*/
-        String str = "STAR";
+        String str = "STA_CH_001";
         byte salt[] = str.getBytes();
         return salt;
     }
