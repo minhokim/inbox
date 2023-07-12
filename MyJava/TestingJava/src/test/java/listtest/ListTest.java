@@ -12,62 +12,65 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListTest {
+
     @Test
-    public void streamTest() {
-        List<Pay> pays = getPays();
-
-        int mapToIntSumMoney = mapToInt(pays);
-        assertThat(mapToIntSumMoney).isEqualTo(210);
-
-        int mapSumMoney = map(pays);
-        assertThat(mapSumMoney).isEqualTo(210);
-
-        List<Pay> tuePays = filter(pays);
-        assertThat(tuePays.size()).isEqualTo(1);
-
-        assertThat(pays.size()).isEqualTo(4);
-
-//        toMap(pays);
-
-        Map<String, Integer> mergeMap = toMapMerge(pays);
-        assertThat(mergeMap.get("wed")).isEqualTo(60);
+    public void mapToInt() {
+        List<Pay> list = getList();
+        int sumMoney = list.stream().mapToInt(Pay::getMoney).sum();
+        assertThat(sumMoney).isEqualTo(200);
     }
 
-    public static int mapToInt(List<Pay> pays) {
-        int sumMoney = pays.stream().mapToInt(Pay::getMoney).sum();
-        return sumMoney;
+    @Test
+    public void map() {
+        List<Pay> list = getList();
+        int sumMoney = list.stream().map(row -> row.getMoney()).reduce(0, (a, b) -> a + b);
+        assertThat(sumMoney).isEqualTo(200);
     }
 
-    public static int map(List<Pay> pays) {
-        int sumMoney = pays.stream().map(row -> row.getMoney()).reduce(0, (a, b) -> a + b);
-        return sumMoney;
+    @Test
+    public void filter() {
+        List<Pay> list = getList();
+        List<Pay> tueList = list.stream().filter(row -> "tue".equals(row.getName())).collect(Collectors.toList());
+        assertThat(tueList.size()).isEqualTo(1);
     }
 
-    public static List<Pay> filter(List<Pay> pays) {
-        return pays.stream().filter(row -> "tue".equals(row.getName())).collect(Collectors.toList());
-    }
-
-    public static Map<String, Integer> toMap(List<Pay> pays) {
-        Map<String, Integer> map = pays.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney()) );
-        return map;
+    @Test
+    public void toMap() {
+        List<Pay> list = getList();
+        Map<String, Integer> map = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney()) );
+        System.out.println(map.values());
     }
 
     /**
-     * 중복된 Key가 존재하는 경우 3번째 인자인 mergeFunction을 사용하여 처리할 수 있음
-     * @param pays
-     * @return
+     * 중복된 Key가 존재하는 경우 3번째 인자인 mergeFunction을 사용하여 처리
+     * 아래의 경우 두 값을 Sum
      */
-    public static Map<String, Integer> toMapMerge(List<Pay> pays) {
-        Map<String, Integer> map = pays.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), Integer::sum) );
-        return map;
+    @Test
+    public void toMapMerge() {
+        List<Pay> list = getList();
+        Map<String, Integer> map = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), Integer::sum) );
+        assertThat(map.get("wed")).isEqualTo(50);
+        System.out.println(map.values());
     }
 
-    public static Map<String, Integer> toMap2(List<Pay> pays) {
-        Map<String, Integer> map = pays.stream().collect( Collectors.toMap(Pay::getName, Pay::getMoney, Integer::sum) );
-        return map;
+    @Test
+    public void toMapMerge2() {
+        List<Pay> list = getList();
+        Map<String, Integer> map = list.stream().collect( Collectors.toMap(Pay::getName, Pay::getMoney, Integer::sum) );
+        System.out.println(map.values());
     }
 
-    private static List<Pay> getPays() {
+    /**
+     * 아래의 경우 새로운 값으로 대체
+     */
+    @Test
+    public void toMapMergeReplace() {
+        List<Pay> list = getList();
+        Map<String, Integer> map = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), (oldValue, newValue) -> newValue) );
+        assertThat(map.get("wed")).isEqualTo(20);
+    }
+
+    private static List<Pay> getList() {
         List<Pay> pays = new ArrayList<>();
         Pay onePay = new Pay();
         onePay.setName("mon");
@@ -83,7 +86,7 @@ public class ListTest {
 
         Pay fourPay = new Pay();
         fourPay.setName("wed");
-        fourPay.setMoney(30);
+        fourPay.setMoney(20);
 
         pays.add(onePay);
         pays.add(twoPay);
