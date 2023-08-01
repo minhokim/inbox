@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ObjectMapperTest {
+    private final ObjectMapper objectMapper = new ObjectMapper();
     @Test
     public void objectToJson() {
-        ObjectMapper objectMapper = new ObjectMapper();
         Car car = new Car("yellow", "renault");
         try {
             objectMapper.writeValue(new File("target/car.json"), car);
@@ -34,7 +34,6 @@ public class ObjectMapperTest {
 
     @Test
     public void jsonToObject() {
-        ObjectMapper objectMapper = new ObjectMapper();
         String json = "{ \"color\": \"Black\", \"type\":\"BMW\" }";
 
         try {
@@ -47,7 +46,6 @@ public class ObjectMapperTest {
 
     @Test
     public void jsonToJsonNode() {
-        ObjectMapper objectMapper = new ObjectMapper();
         String json = "{ \"color\": \"Black\", \"type\":\"FIAT\" }";
         try {
             JsonNode jsonNode = objectMapper.readTree(json);
@@ -60,7 +58,6 @@ public class ObjectMapperTest {
 
     @Test
     public void listFromJsonArray() {
-        ObjectMapper objectMapper = new ObjectMapper();
         String jsonCarArray = "[{ \"color\" : \"Black\", \"type\" : \"BMW\" }, { \"color\" : \"Red\", \"type\" : \"FIAT\" }]";
         try {
             List<Car> listCar = objectMapper.readValue(jsonCarArray, new TypeReference<List<Car>>(){});
@@ -72,7 +69,6 @@ public class ObjectMapperTest {
 
     @Test
     public void mapFromJson() {
-        ObjectMapper objectMapper = new ObjectMapper();
         String json = "{ \"color\" : \"Black\", \"type\" : \"BMW\" }";
         try {
             Map<String, Object> map = objectMapper.readValue(json, new TypeReference<Map<String,Object>>(){});
@@ -84,7 +80,6 @@ public class ObjectMapperTest {
 
     @Test
     public void serialization() {
-        ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = "{ \"color\" : \"Black\", \"type\" : \"Fiat\", \"year\" : \"1970\" }";
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 //        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
@@ -98,6 +93,11 @@ public class ObjectMapperTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void readValueTreeTest() {
+        String jsonString = "{ \"color\" : \"Black\", \"type\" : \"Fiat\", \"year\" : \"1970\" }";
 
     }
 
