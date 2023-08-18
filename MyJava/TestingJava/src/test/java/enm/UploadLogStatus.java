@@ -1,6 +1,7 @@
 package enm;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 public enum UploadLogStatus {
@@ -10,8 +11,8 @@ public enum UploadLogStatus {
     PERMISSION_DENIED("PermissionDenied"),
     UPLOADED("Uploaded"),
     UPLOAD_FAILURE("UploadFailure"),
-    UPLOADING("Uploading");
-
+    UPLOADING("Uploading"),
+    NOTDEFINED("NotDefined");
 
     private final String value;
 
@@ -31,6 +32,7 @@ public enum UploadLogStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException(v);
+        return NOTDEFINED;
+//        throw new IllegalArgumentException(v);
     }
 }

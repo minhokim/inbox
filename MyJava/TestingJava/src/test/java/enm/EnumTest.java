@@ -12,5 +12,20 @@ public class EnumTest {
         System.out.println("status : " + UploadLogStatus.fromValue("Idle"));
     }
 
+    @Test
+    public void switchTest() {
+
+        switch (UploadLogStatus.fromValue("Idle2")) {
+            case IDLE:
+                System.out.println("Idle");
+                break;
+            case NOTDEFINED:
+                System.out.println("NotDefined");
+                break;
+            default:
+                System.out.println("default");
+        }
+    }
+
 
 }
