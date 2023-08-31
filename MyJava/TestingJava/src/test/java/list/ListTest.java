@@ -1,4 +1,4 @@
-package listtest;
+package list;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,11 +7,28 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListTest {
+
+    @Test
+    public void streamFindFirst() {
+        List<Pay> list = getList();
+        Optional<Pay> pay = list.stream().filter(f -> f.getName().equals("mon")).findAny();
+        System.out.println("pay : " + pay.get().getName());
+    }
+
+    @Test
+    public void subList() {
+        List<Pay> list = getList();
+        List<Pay> subList = list.subList(0, 2);
+        System.out.println(subList.size());
+        List<Pay> subList2 = list.subList(3, list.size());
+        System.out.println(subList2.size());
+    }
 
     @Test
     public void mapToInt() {
@@ -24,7 +41,7 @@ public class ListTest {
     public void map() {
         List<Pay> list = getList();
         int sumMoney = list.stream().map(row -> row.getMoney()).reduce(0, (a, b) -> a + b);
-        assertThat(sumMoney).isEqualTo(200);
+        assertThat(sumMoney).isEqualTo(4);
     }
 
     @Test
@@ -49,7 +66,7 @@ public class ListTest {
     public void toMapMerge() {
         List<Pay> list = getList();
         Map<String, Integer> map = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), Integer::sum) );
-        assertThat(map.get("wed")).isEqualTo(50);
+        assertThat(map.get("wed")).isEqualTo(2);
         System.out.println(map.values());
     }
 
@@ -74,19 +91,19 @@ public class ListTest {
         List<Pay> pays = new ArrayList<>();
         Pay onePay = new Pay();
         onePay.setName("mon");
-        onePay.setMoney(100);
+        onePay.setMoney(1);
 
         Pay twoPay = new Pay();
         twoPay.setName("tue");
-        twoPay.setMoney(50);
+        twoPay.setMoney(1);
 
         Pay threePay = new Pay();
         threePay.setName("wed");
-        threePay.setMoney(30);
+        threePay.setMoney(1);
 
         Pay fourPay = new Pay();
         fourPay.setName("wed");
-        fourPay.setMoney(20);
+        fourPay.setMoney(1);
 
         pays.add(onePay);
         pays.add(twoPay);

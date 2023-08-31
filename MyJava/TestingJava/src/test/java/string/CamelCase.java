@@ -1,4 +1,4 @@
-package etc;
+package string;
 
 import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,7 @@
 package datetest;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
@@ -29,5 +30,15 @@ public class DateTest {
         DateTime dateTime = new DateTime().plusYears(5);
         System.out.println(dateTime.toDateTime());
         System.out.println(new Timestamp(dateTime.toDateTime().getMillis()));
+    }
+
+    @Test
+    public void timestamp() {
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        DateTime dt = new DateTime(t.getTime(), DateTimeZone.getDefault());
+        System.out.println("t : " + t);
+        System.out.println("dt : " + dt);
+        System.out.println("Month : " + dt.getMonthOfYear());
+        System.out.println("Hour : " + dt.getHourOfDay());
     }
 }
