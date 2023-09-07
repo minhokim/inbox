@@ -18,7 +18,9 @@ public class ListTest {
     public void streamFindFirst() {
         List<Pay> list = getList();
         Optional<Pay> pay = list.stream().filter(f -> f.getName().equals("mon")).findAny();
+        Optional<Pay> pay2 = list.stream().filter(f -> f.getName().equals("mon")).findFirst();
         System.out.println("pay : " + pay.get().getName());
+        System.out.println("pay2 : " + pay.get().getName());
     }
 
     @Test
