@@ -1,6 +1,7 @@
 package etc;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.Test;
 
 public class EtcTest {
@@ -27,6 +28,8 @@ public class EtcTest {
 
         System.out.println(System.currentTimeMillis());
         System.out.println(dateTime);
+        System.out.println(new DateTime(System.currentTimeMillis()).withZone(DateTimeZone.forID("Asia/Seoul")));
+        System.out.println(new DateTime(System.currentTimeMillis()));
         System.out.println(dateTime.dayOfWeek().getAsString());
     }
 
