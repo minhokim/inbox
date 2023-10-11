@@ -41,4 +41,16 @@ public class DateTest {
         System.out.println("Month : " + dt.getMonthOfYear());
         System.out.println("Hour : " + dt.getHourOfDay());
     }
+
+    @Test
+    public void currentDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+        System.out.println(dateFormat.format(new Date()));
+    }
+
+    @Test
+    public void currentDateTimeSecond() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        System.out.println(dateFormat.format(new Date()));
+    }
 }
