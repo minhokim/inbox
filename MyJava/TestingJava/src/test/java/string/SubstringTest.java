@@ -24,6 +24,9 @@ public class SubstringTest {
             assertThat(bearerToken.substring(6)).isEqualTo("token");
         }
 
+        String mobile = "01011112222";
+        System.out.println(mobile.substring(mobile.length() - 4));
+
     }
 
 

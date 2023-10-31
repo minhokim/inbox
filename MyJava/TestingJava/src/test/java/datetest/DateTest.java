@@ -2,12 +2,16 @@ package datetest;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class DateTest {
     @Test
@@ -40,6 +44,13 @@ public class DateTest {
         System.out.println("dt : " + dt);
         System.out.println("Month : " + dt.getMonthOfYear());
         System.out.println("Hour : " + dt.getHourOfDay());
+    }
+
+    @Test
+    public void localDateTest() {
+        LocalDate localDate = LocalDate.now();
+        System.out.println(localDate.monthOfYear().get());
+        assertThat(localDate.monthOfYear().get() == 10);
     }
 
     @Test

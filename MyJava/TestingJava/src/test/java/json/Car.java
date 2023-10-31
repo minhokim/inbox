@@ -2,6 +2,8 @@ package json;
 
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @ToString
@@ -10,4 +12,5 @@ import lombok.*;
 public class Car {
     private String color;
     private String type;
+    private Timestamp carTime;
 }

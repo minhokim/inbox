@@ -27,5 +27,13 @@ public class EnumTest {
         }
     }
 
+    @Test
+    public void equalTest() {
+        UploadLogStatus _status = UploadLogStatus.IDLE;
+        if (UploadLogStatus.IDLE == _status) {
+            System.out.println("equal");
+        }
+    }
+
 
 }

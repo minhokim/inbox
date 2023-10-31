@@ -10,6 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +21,7 @@ public class ObjectMapperTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Test
     public void objectToJson() {
-        Car car = new Car("yellow", "renault");
+       /* Car car = new Car("yellow", "renault");
         try {
             objectMapper.writeValue(new File("target/car.json"), car);
         } catch (IOException e) {
@@ -29,7 +33,7 @@ public class ObjectMapperTest {
             System.out.println("objectToJson carAsString : " + carAsString);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     @Test
@@ -93,6 +97,27 @@ public class ObjectMapperTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void mapToObject() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("color", "white");
+        map.put("type", "suv");
+        map.put("carTime", "20231031112349");
+
+        Car car = objectMapper.convertValue(map, Car.class);
+        System.out.println("jsonToObject car : " + car.toString());
+
+    }
+
+    @Test
+    public void strToTimestamp() {
+        String str = "231031112349";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(str));
+        Timestamp timestamp = Timestamp.valueOf(localDateTime);
+        System.out.println(timestamp);
     }
 
     @Test
