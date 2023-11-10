@@ -12,12 +12,44 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ListTest {
 
     @Test
+    public void removeTest2() {
+        List<Pay> list = getList();
+        Iterator<Pay> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            if (isRemove(iterator.next())) {
+                iterator.remove();
+            }
+        }
+        System.out.println(list);
+    }
+
+    /**
+     * ConcurrentModificationException
+     */
+    @Test
+    public void removeTest() {
+        List<Pay> list = getList();
+        for (Pay pay : list) {
+            if (isRemove(pay)) {
+                list.remove(pay);
+            }
+        }
+    }
+
+    private boolean isRemove(Pay pay) {
+        if ("mon".equals(pay.getName())) {
+            return true;
+        }
+        return false;
+    }
+
+    @Test
     public void streamFindFirst() {
         List<Pay> list = getList();
         Optional<Pay> pay = list.stream().filter(f -> f.getName().equals("mon")).findAny();
         Optional<Pay> pay2 = list.stream().filter(f -> f.getName().equals("mon")).findFirst();
         System.out.println("pay : " + pay.get().getName());
-        System.out.println("pay2 : " + pay.get().getName());
+        System.out.println("pay2 : " + pay2.get().getName());
     }
 
     @Test

@@ -102,8 +102,8 @@ public class ObjectMapperTest {
     @Test
     public void mapToObject() {
         Map<String, Object> map = new HashMap<>();
-        map.put("color", "white");
-        map.put("type", "suv");
+        map.put("Color", "white");
+        map.put("Type", "suv");
         map.put("carTime", "20231031112349");
 
         Car car = objectMapper.convertValue(map, Car.class);

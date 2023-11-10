@@ -1,12 +1,14 @@
 package etc;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.Test;
 
-public class EtcTest {
+import java.util.HashMap;
+import java.util.Map;
 
-    
+public class EtcTest {
 
     @Test
     public void randomStr() {
@@ -33,5 +35,35 @@ public class EtcTest {
         System.out.println(dateTime.dayOfWeek().getAsString());
     }
 
+    @Test
+    public void mapTest() {
+        Map<String, Object> map = null;
+        if (map.isEmpty()) {
+            System.out.println("empty");
+        }
+    }
+
+    @Test
+    public void emptyTest() {
+        String str = null;
+        if (StringUtils.isEmpty(str)) {
+            System.out.println("empty");
+        }
+    }
+
+    @Test
+    public void test() {
+        Integer a = 1000;
+        double b = 1100;
+        double c = (b/a);
+        System.out.println(c);
+
+        double min = 0.9;
+        double max = 1.0;
+
+        if (c > min) {
+            System.out.println("1");
+        }
+    }
 
 }
