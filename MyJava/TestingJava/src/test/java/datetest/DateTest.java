@@ -38,12 +38,22 @@ public class DateTest {
 
     @Test
     public void timestamp() {
-        Timestamp t = new Timestamp(System.currentTimeMillis());
-        DateTime dt = new DateTime(t.getTime(), DateTimeZone.getDefault());
-        System.out.println("t : " + t);
+        Timestamp c = new Timestamp(System.currentTimeMillis());
+        DateTime dt = new DateTime(c.getTime(), DateTimeZone.getDefault());
+        System.out.println("c : " + c);
         System.out.println("dt : " + dt);
         System.out.println("Month : " + dt.getMonthOfYear());
         System.out.println("Hour : " + dt.getHourOfDay());
+
+        Timestamp st = new Timestamp(System.currentTimeMillis() - (6750 * 1000));
+        System.out.println("st : " + st);
+
+        long diff = c.getTime() - st.getTime();
+        System.out.println(((diff / 1000) / 60) / 60 + " h");
+        System.out.println(((diff / 1000) / 60) % 60 +  " m");
+
+
+
     }
 
     @Test

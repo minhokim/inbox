@@ -52,18 +52,13 @@ public class EtcTest {
     }
 
     @Test
-    public void test() {
-        Integer a = 1000;
-        double b = 1100;
-        double c = (b/a);
-        System.out.println(c);
-
-        double min = 0.9;
-        double max = 1.0;
-
-        if (c > min) {
-            System.out.println("1");
-        }
+    public void doubleTest() {
+        int startMeter = 21250;
+        int stopMeter = 21270;
+        double energyKw = (stopMeter - startMeter) / 1000d;
+        int chargeAmount = (int) (energyKw * 220);
+        System.out.println(energyKw);
     }
+
 
 }

@@ -113,7 +113,7 @@ public class ObjectMapperTest {
 
     @Test
     public void strToTimestamp() {
-        String str = "231031112349";
+        String str = "20231031112349";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(str));
         Timestamp timestamp = Timestamp.valueOf(localDateTime);
