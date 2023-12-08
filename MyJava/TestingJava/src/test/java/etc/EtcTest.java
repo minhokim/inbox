@@ -20,8 +20,10 @@ public class EtcTest {
     }
     @Test
     public void roundTest() {
-        float watt = 104.799995f;
+        double watt = 3.14159265;
+        System.out.println(Math.round(watt * 10) / 10.0);
         System.out.println(Math.round(watt * 100) / 100.0);
+        System.out.println(Math.round(watt * 1000) / 1000.0);
     }
 
     @Test
