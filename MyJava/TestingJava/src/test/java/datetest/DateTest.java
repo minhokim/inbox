@@ -1,8 +1,9 @@
 package datetest;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.*;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
@@ -73,5 +74,26 @@ public class DateTest {
     public void currentDateTimeSecond() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         System.out.println(dateFormat.format(new Date()));
+    }
+
+    @Test
+    public void jodaDatetime() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        System.out.println(currentDateTime);
+
+        DateTime dateTime = currentDateTime.toDateTime();
+        LocalDate localDate = currentDateTime.toLocalDate();
+        LocalTime localTime = currentDateTime.toLocalTime();
+
+        System.out.println("dateTime : " + dateTime);
+        System.out.println("localDate : " + localDate);
+        System.out.println("localTime : " + localTime);
+
+        LocalDateTime utc = LocalDateTime.now(DateTimeZone.UTC);
+        System.out.println("utc " + utc);
+
+        System.out.println(StringUtils.substring(dateTime.toString(), 0,16));
+
+
     }
 }
