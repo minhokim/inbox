@@ -14,9 +14,9 @@ import java.util.Map;
 public class WebSocketClientTest {
     @Test
     public void webSocketTest() {
-        URI uri = URI.create("ws://bgp.net:6080/rest/ocpp/STA_CH_001");
+        URI uri = URI.create("wss://localhost:6090/rest/ocpp/STA_CH_001");
         Map<String, String> httpHeaders = new HashMap<>();
-        httpHeaders.put("Authorization", "Basic U1RBX0NIXzAwMTp0ZXN0MTIzNA==");
+        httpHeaders.put("Authorization", "Basic U1RBX0NIXzAwMWETSp0ZXN0MTIzNA==");
         httpHeaders.put("Sec-WebSocket-Protocol", "ocpp1.6");
         WebSocketUtil webSocketUtil = new WebSocketUtil(uri, new Draft_6455(), httpHeaders, 5000);
 

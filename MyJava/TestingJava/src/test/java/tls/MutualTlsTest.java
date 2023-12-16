@@ -15,18 +15,19 @@ import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class MutualTlsTest {
 
+    private final String SERVER_ENDPOINT = "wss://localhost:6090/rest/ocpp/STA_CH_001";
     @Test
     public void webSocketMutualTls() {
-        final String TRUST_STORE = "/jks/client_truststore.jks";
+        final String TRUST_STORE = "/jks/client_local_truststore.jks";
         final String TRUST_STORE_PASSWORD = "qwer1234";
         final String TRUST_STORE_TYPE = "JKS";
-        final String KEY_STORE = "/jks/client_keystore.jks";
+        final String KEY_STORE = "/jks/client_local_keystore.jks";
         final String KEY_STORE_PASSOWRD = "qwer1234";
         final String KEY_STORE_TYPE = "JKS";
-        final String SERVER_ENDPOINT = "wss://domain.net:6080/rest/ocpp/STA_CH_001";
 
         KeyStore keyStore = null;
         KeyStore trustStore = null;
@@ -49,12 +50,34 @@ public class MutualTlsTest {
             sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
             SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
+
+          /*  HostnameVerifier allHostsValid = new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+            HttpsURLConnection.setDefaultSSLSocketFactory(sslSocketFactory);
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);*/
+
             Map<String, String> httpHeaders = new HashMap<>();
             httpHeaders.put("Sec-WebSocket-Protocol", "ocpp1.6");
 
             MyClient session = new MyClient(URI.create(SERVER_ENDPOINT), httpHeaders);
             session.setSocketFactory(sslSocketFactory);
-            session.connectBlocking();
+            session.connectBlocking(5, TimeUnit.MINUTES);
+
+            String message = "[\n" +
+                    "    2, \"10\",\n" +
+                    "    \"SignCertificate\",\n" +
+                    "    {\n" +
+                    "        \"csr\": \"-----BEGIN CERTIFICATE REQUEST-----\\nMIIClTCCAX0CAQAwUDELMAkGA1UEBhMCS1IxETAPBgNVBAoMCGJncCBJbmMuMRgw\\nFgYDVQQLDA9iZ3AgU1NMIFByb2plY3QxFDASBgNVBAMMC2JncC5kZXYubmV0MIIB\\nIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0TNoVdlyWFnMNtxE5eM//tmb\\naTxj95uZgud3eGvhY7lpzED9gt+zueFvrZ2zdqAq7aiZFBab8/QC4iL4TaLLYZyu\\nNWXnKTEjgreGwYj1psmmdHafqAioid2IFaacBHqrUuGb89MOF8tmm+Y39zm1V43+\\njqIkWRyZpnPKQS+M3UwnsZ6ySCd/ukDs5mjf/HQ8NgCh8hB6Flvfa/FEzsZK+yl6\\nmn3wSTLLX+NSSjg1vSp7oCw2yOVnUff6U6iJVL5FPNZBWhODkR5rpskOmaUyFUtN\\nssb5niFfFEIvkO1z8IyIo7ImUVsa5VcFHPus8c9UgQ2+QVQdSjE+o7Xb72Cw8QID\\nAQABoAAwDQYJKoZIhvcNAQEFBQADggEBANAMcuafAzrWGltwR9ptvQZuK9sEH2rM\\nuc9O54O4Cb5nbpM/g5vpBkB1D5J9swbdAWM6iiO95JHjhJrVgzwIWLZK1gcHEIBJ\\njnmDXrbB7IIZRIbxlPBW/hfsG+to9qKmduzSrXzTCtNh8PuWgkWRXQefZCBUwhJi\\n9rwvQYSh7PGCHXvGBT221bsMyRcmDr0b1IXytyccrshA84MpvrTgzgyNJqUqBwX7\\nJIh71XIpASK+yNZ6i/s/U/UcOOyDPmlPR3z4Fxc5Dv8CkHWjvr1BS1yLuTsdFi/G\\njrhid5Sj2o6fmYp6HnFwxyMWOJxhncWZtrYHOaRfcUwO0y4iWRDRZoE=\\n-----END CERTIFICATE REQUEST-----\"\n" +
+                    "    }\n" +
+                    "]";
+            session.send(message);
+
+            Thread.sleep(10000);
 
         } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException |
                  UnrecoverableKeyException e) {
@@ -138,7 +161,7 @@ class MyClient extends WebSocketClient {
 
     @Override
     public void onMessage(String s) {
-        System.out.println("onMessage");
+        System.out.println("onMessage : " + s);
     }
 
     @Override
@@ -148,6 +171,7 @@ class MyClient extends WebSocketClient {
 
     @Override
     public void onError(Exception e) {
+        System.out.println("Exception : " + e);
         System.out.println("onError");
     }
 }

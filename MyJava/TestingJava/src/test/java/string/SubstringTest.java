@@ -1,4 +1,4 @@
-package etc;
+package string;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -23,6 +23,9 @@ public class SubstringTest {
         if (bearerToken.startsWith("Basic ")) {
             assertThat(bearerToken.substring(6)).isEqualTo("token");
         }
+
+        String mobile = "01011112222";
+        System.out.println(mobile.substring(mobile.length() - 4));
 
     }
 

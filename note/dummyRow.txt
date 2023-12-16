@@ -1,0 +1,3 @@
+SELECT t1.val FROM (
+    VALUES ('Hello'), ('World'), ('Postgresql')
+) t1 (val);
