@@ -62,9 +62,9 @@ public class ObjectMapperTest {
 
     @Test
     public void listFromJsonArray() {
-        String jsonCarArray = "[{ \"color\" : \"Black\", \"type\" : \"BMW\" }, { \"color\" : \"Red\", \"type\" : \"FIAT\" }]";
+        String jsonArrStr = "[{ \"color\" : \"Black\", \"type\" : \"BMW\" }, { \"color\" : \"Red\", \"type\" : \"FIAT\" }]";
         try {
-            List<Car> listCar = objectMapper.readValue(jsonCarArray, new TypeReference<List<Car>>(){});
+            List<Car> listCar = objectMapper.readValue(jsonArrStr, new TypeReference<>(){});
             System.out.println(listCar);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
