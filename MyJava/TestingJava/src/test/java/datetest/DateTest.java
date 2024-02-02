@@ -39,22 +39,39 @@ public class DateTest {
 
     @Test
     public void timestamp() {
-        Timestamp c = new Timestamp(System.currentTimeMillis());
-        DateTime dt = new DateTime(c.getTime(), DateTimeZone.getDefault());
-        System.out.println("c : " + c);
-        System.out.println("dt : " + dt);
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        DateTime dt = new DateTime(t.getTime(), DateTimeZone.getDefault());
+        System.out.println("Timestamp : " + t);
+        System.out.println("DateTime : " + dt);
         System.out.println("Month : " + dt.getMonthOfYear());
+        System.out.println("Day : " + dt.getDayOfMonth());
         System.out.println("Hour : " + dt.getHourOfDay());
+        System.out.println("Min : " + dt.getMinuteOfHour());
 
-        Timestamp st = new Timestamp(System.currentTimeMillis() - (6750 * 1000));
-        System.out.println("st : " + st);
+        Timestamp prevTs = new Timestamp(System.currentTimeMillis() - (6750 * 1000));
+        System.out.println("Prev Timestmp : " + prevTs);
 
-        long diff = c.getTime() - st.getTime();
+        long _diff = t.getTime() - prevTs.getTime();
+        long diff = 3700 * 1000;
+        System.out.println("Diff : " + diff);
         System.out.println(((diff / 1000) / 60) / 60 + " h");
         System.out.println(((diff / 1000) / 60) % 60 +  " m");
+        System.out.println((diff / 1000) / 60 +  " m");
 
+    }
 
+    @Test
+    public void timestampTest() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println(timestamp);
+    }
 
+    @Test
+    public void timestampToStr() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String timestampStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
+        System.out.println("Timestamp : " + timestamp);
+        System.out.println("TimestampStr : " + timestampStr);
     }
 
     @Test

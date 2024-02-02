@@ -1,5 +1,6 @@
 package map;
 
+import org.apache.cxf.common.util.CollectionUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -151,5 +152,14 @@ public class MapPutTest {
         testMap.put("AA", map);
 
         System.out.println("map.size() : " + testMap.get("AA").size());
+    }
+
+    @Test
+    public void mapNull() {
+        Map<String, Object> map = null;
+        if (CollectionUtils.isEmpty(map)) {
+            System.out.println("empty");
+        }
+
     }
 }

@@ -26,7 +26,13 @@ public class SubstringTest {
 
         String mobile = "01011112222";
         System.out.println(mobile.substring(mobile.length() - 4));
+    }
 
+    @Test
+    public void prevUnit() {
+        String str = "3kW";
+        System.out.println(str.indexOf("kW"));
+        System.out.println(str.substring(0, str.indexOf("kW")));
     }
 
 
