@@ -99,4 +99,19 @@ public class DatetimeTest {
         DateTimeZone zoneDefault = DateTimeZone.getDefault();
         System.out.println("zoneDefault : " + zoneDefault);
     }
+
+    @Test
+    public void diffTime() {
+        String strDateEnd = "2024-02-25 14:30:00";
+        String strDateStart = "2024-01-26 14:30:00";
+        Timestamp end = Timestamp.valueOf(strDateEnd);
+        Timestamp start = Timestamp.valueOf(strDateStart);
+
+        System.out.println("end : " + end);
+        System.out.println("start : " + start);
+
+        long diff = end.getTime() - start.getTime();
+        System.out.println( (diff / 1000 / 60) / 60 );
+
+    }
 }

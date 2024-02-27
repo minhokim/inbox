@@ -26,9 +26,5 @@ public class deque {
         myDeque.addLast("AA");
 
 
-
-
-
-
     }
 }

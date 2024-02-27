@@ -95,12 +95,12 @@ public class DateTest {
 
     @Test
     public void jodaDatetime() {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        System.out.println(currentDateTime);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println(localDateTime);
 
-        DateTime dateTime = currentDateTime.toDateTime();
-        LocalDate localDate = currentDateTime.toLocalDate();
-        LocalTime localTime = currentDateTime.toLocalTime();
+        DateTime dateTime = localDateTime.toDateTime();
+        LocalDate localDate = localDateTime.toLocalDate();
+        LocalTime localTime = localDateTime.toLocalTime();
 
         System.out.println("dateTime : " + dateTime);
         System.out.println("localDate : " + localDate);
