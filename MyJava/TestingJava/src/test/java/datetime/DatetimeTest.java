@@ -102,8 +102,8 @@ public class DatetimeTest {
 
     @Test
     public void diffTime() {
-        String strDateEnd = "2024-02-25 14:30:00";
-        String strDateStart = "2024-01-26 14:30:00";
+        String strDateEnd = "2024-02-24 18:17:05";
+        String strDateStart = "2024-02-24 08:30:05";
         Timestamp end = Timestamp.valueOf(strDateEnd);
         Timestamp start = Timestamp.valueOf(strDateStart);
 
@@ -111,7 +111,7 @@ public class DatetimeTest {
         System.out.println("start : " + start);
 
         long diff = end.getTime() - start.getTime();
-        System.out.println( (diff / 1000 / 60) / 60 );
+        System.out.println( (diff / 1000 / 60) / 60 + "h " + (diff / 1000 /60) % 60 + "m");
 
     }
 }
