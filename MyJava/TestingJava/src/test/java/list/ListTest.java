@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingInt;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListTest {
@@ -106,9 +108,7 @@ public class ListTest {
     @Test
     public void listToMapBySum() {
         List<Pay> list = getList();
-        Pay fourPay = new Pay();
-        fourPay.setName("wed");
-        fourPay.setMoney(2);
+        Pay fourPay = new Pay("wed", 2);
         list.add(fourPay);
 
         Map<String, Integer> firstMap = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), Integer::sum) );
@@ -129,34 +129,65 @@ public class ListTest {
     @Test
     public void listToMapReplace() {
         List<Pay> list = getList();
-        Pay fourPay = new Pay();
-        fourPay.setName("wed");
-        fourPay.setMoney(2);
+        Pay fourPay = new Pay("web", 2);
         list.add(fourPay);
 
         Map<String, Integer> map = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), (oldValue, newValue) -> newValue) );
         assertThat(map.get("wed")).isEqualTo(2);
     }
 
+
+    @Test
+    public void sumWithObject() {
+        List<Pay> items = getDayList();
+
+        Integer sum = items.stream()
+                .map(x -> x.getMoney())
+                .collect(Collectors.summingInt(Integer::intValue));
+
+        System.out.println("sum : " + sum);
+    }
+
+    @Test
+    public void reduce() {
+        List<Pay> items = getDayList();
+
+        Integer sum = items.stream()
+                .map(item -> item.getMoney())
+                .reduce(0, Integer::sum);
+
+        System.out.println("reduce sum : " + sum);
+    }
+
+    @Test
+    public void groupingByTest() {
+        List<Pay> items = new ArrayList<>(getDayList());
+        items.sort(Comparator.comparing(Pay::getName));
+        TreeMap<String, List<Pay>> collect = items.stream()
+                .collect(groupingBy(Pay::getName, TreeMap::new, Collectors.toList()));
+
+        System.out.println(collect);
+    }
+
     private static List<Pay> getList() {
-        List<Pay> pays = new ArrayList<>();
-        Pay threePay = new Pay();
-        threePay.setName("wed");
-        threePay.setMoney(1);
+        return List.of(
+                new Pay("web", 1),
+                new Pay("wed", 1),
+                new Pay("mon", 1),
+                new Pay("tue", 1)
+        );
+    }
 
-        Pay onePay = new Pay();
-        onePay.setName("mon");
-        onePay.setMoney(1);
-
-        Pay twoPay = new Pay();
-        twoPay.setName("tue");
-        twoPay.setMoney(1);
-
-        pays.add(onePay);
-        pays.add(twoPay);
-        pays.add(threePay);
-
-        return pays;
+    private static List<Pay> getDayList() {
+        return List.of(
+                new Pay("7", 1),
+                new Pay("5", 1),
+                new Pay("3", 1),
+                new Pay("1", 1),
+                new Pay("7", 1),
+                new Pay("5", 1),
+                new Pay("3", 1)
+        );
     }
 
 
@@ -165,5 +196,10 @@ public class ListTest {
     public static class Pay {
         private String name;
         private int money;
+
+        public Pay(String name, int money) {
+            this.name = name;
+            this.money = money;
+        }
     }
 }
