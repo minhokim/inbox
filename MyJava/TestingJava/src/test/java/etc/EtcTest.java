@@ -26,6 +26,7 @@ public class EtcTest {
         System.out.println(Math.round(watt * 1000) / 1000.0);
     }
 
+    // TODO: 3/8/24 i'm main
     @Test
     public void dayOfWeek() {
         DateTime dateTime = new DateTime(System.currentTimeMillis());
