@@ -26,6 +26,9 @@ public class SubstringTest {
 
         String mobile = "01011112222";
         System.out.println(mobile.substring(mobile.length() - 4));
+
+        String ch = "Response:STA_CH_001";
+        System.out.println("ch : "+ch.substring(ch.indexOf(":")+1));
     }
 
     @Test
@@ -34,6 +37,8 @@ public class SubstringTest {
         System.out.println(str.indexOf("kW"));
         System.out.println(str.substring(0, str.indexOf("kW")));
     }
+
+
 
 
 }
