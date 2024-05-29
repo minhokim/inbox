@@ -3,6 +3,9 @@ package string;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -36,6 +39,15 @@ public class SubstringTest {
         String str = "3kW";
         System.out.println(str.indexOf("kW"));
         System.out.println(str.substring(0, str.indexOf("kW")));
+    }
+
+    @Test
+    public void containsList() {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+
+        System.out.println(list.contains("aa"));
     }
 
 

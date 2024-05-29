@@ -14,6 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ListTest {
 
     @Test
+    public void asListTest() {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    }
+
+    @Test
     public void removeTest2() {
         List<Pay> list = getList();
         Iterator<Pay> iterator = list.iterator();
