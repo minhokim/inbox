@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.summingInt;
+import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListTest {
@@ -170,6 +169,15 @@ public class ListTest {
         items.sort(Comparator.comparing(Pay::getName));
         TreeMap<String, List<Pay>> collect = items.stream()
                 .collect(groupingBy(Pay::getName, TreeMap::new, Collectors.toList()));
+
+        System.out.println(collect);
+    }
+
+    @Test
+    public void groupingCountTest() {
+        List<Pay> items = new ArrayList<>(getDayList());
+        Map<String, Long> collect = items.stream()
+                .collect(groupingBy(Pay::getName, counting()));
 
         System.out.println(collect);
     }
