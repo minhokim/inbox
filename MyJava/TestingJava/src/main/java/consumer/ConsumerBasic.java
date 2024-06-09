@@ -16,6 +16,7 @@ public class ConsumerBasic {
         products.add(new Product("B", new BigDecimal("3.89")));
         products.add(new Product("C", new BigDecimal("5.99")));
         products.add(new Product("D", new BigDecimal("9.99")));
+        
 
         Consumer<Product> inPrice = p -> {
             p.setPrice(rounded(p.getPrice().multiply(new BigDecimal("1.1"))));

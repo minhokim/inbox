@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class StreamTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
+    
 
     @Test
     public void flatMapTest() {
