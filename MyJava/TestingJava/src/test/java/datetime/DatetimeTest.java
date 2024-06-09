@@ -2,20 +2,16 @@ package datetime;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.format.DateTimeFormatter;
 
 public class DatetimeTest {
 
@@ -75,10 +71,22 @@ public class DatetimeTest {
 
     @Test
     public void strDateToDateTimeUTC() {
-        String strDate = "2023-05-17 14:51:05";
+        /*String strDate = "2023-05-17 14:51:05";
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         DateTime dt = formatter.parseDateTime(strDate).toDateTime(DateTimeZone.UTC);
-        System.out.println("DT : " + dt);
+        System.out.println("DT : " + dt);*/
+    }
+
+    @Test
+    public void timestampToStr() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println("Timestamp : " + timestamp);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+        String timestampAsString = formatter.format(timestamp.toLocalDateTime());
+        System.out.println(timestampAsString);
+        System.out.println(timestamp.toString());
 
     }
 
@@ -99,4 +107,23 @@ public class DatetimeTest {
         DateTimeZone zoneDefault = DateTimeZone.getDefault();
         System.out.println("zoneDefault : " + zoneDefault);
     }
+
+    @Test
+    public void diffTime() {
+        String strDateStart = "2024-02-24 10:30:05";
+        String strDateEnd = "2024-02-24 10:35:05";
+        Timestamp start = Timestamp.valueOf(strDateStart);
+        Timestamp end = Timestamp.valueOf(strDateEnd);
+
+        System.out.println("end : " + end);
+        System.out.println("start : " + start);
+
+        long diff = end.getTime() - start.getTime();
+        System.out.println( (diff / 1000 / 60) / 60 + "h " + (diff / 1000 /60) % 60 + "m");
+
+        System.out.println(end.compareTo(start));
+
+
+    }
+
 }
