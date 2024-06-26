@@ -7,11 +7,13 @@ import org.joda.time.format.DateTimeFormat;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class DatetimeTest {
 
@@ -86,8 +88,29 @@ public class DatetimeTest {
 
         String timestampAsString = formatter.format(timestamp.toLocalDateTime());
         System.out.println(timestampAsString);
-        System.out.println(timestamp.toString());
+        System.out.println(timestamp);
+    }
 
+    @Test
+    public void convertTimeStampToStringTest() {
+        String currentTimeStampStr = convertTimeStampToString(new Timestamp(System.currentTimeMillis()), "yyyyMMdd");
+        System.out.println(currentTimeStampStr);
+    }
+
+    public static String convertTimeStampToString(Timestamp timestamp, String format)
+    {
+        if (timestamp == null) return "";
+
+        try
+        {
+            Date date = new Date();
+            date.setTime(timestamp.getTime());
+            return new SimpleDateFormat(format).format(date);
+        }
+        catch (Exception e)
+        {
+            return "";
+        }
     }
 
     @Test
