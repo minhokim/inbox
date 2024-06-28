@@ -1,5 +1,4 @@
 
-import componentsImg from './assets/components.png';
 import { CORE_CONCEPTS } from './data';
 import Header from './components/Header/Header.jsx';
 import CoreConcept from './components/CoreConcept.jsx';
@@ -32,20 +31,15 @@ if (selectedTopic) {
 }
 
   return (
-    <div>
+    <>
       <Header />      
       <main>
         <section id="core-concepts">
-          <h2>Time to get started!</h2>
+          <h2>Core Concepts</h2>
           <ul>
-            <CoreConcept
-              title={CORE_CONCEPTS[0].title}
-              description={CORE_CONCEPTS[0].description}
-              image={CORE_CONCEPTS[0].image} 
-            />
-            <CoreConcept {...CORE_CONCEPTS[1]} />
-            <CoreConcept {...CORE_CONCEPTS[2]} />
-            <CoreConcept {...CORE_CONCEPTS[3]} />
+            {CORE_CONCEPTS.map((conceptItem) => (
+              <CoreConcept key={conceptItem.title} {...conceptItem} />
+            ))}            
           </ul>
         </section>
         <section id="examples">
@@ -59,7 +53,7 @@ if (selectedTopic) {
           {tabContent}         
         </section>        
       </main>
-    </div>
+    </>
   );
 }
 
