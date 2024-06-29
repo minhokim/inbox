@@ -4,6 +4,7 @@ import './Header.css'
 const reactDescriptions = ['Fundamental', 'Crucial', 'Core'];
 
 function genRandomInt(max) {
+  console.log('Math.random()', Math.random() * 2);
   return Math.floor(Math.random() * (max + 1));
 }
 
