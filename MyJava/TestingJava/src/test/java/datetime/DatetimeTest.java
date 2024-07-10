@@ -6,6 +6,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -13,6 +14,7 @@ import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DatetimeTest {
@@ -142,11 +144,92 @@ public class DatetimeTest {
         System.out.println("start : " + start);
 
         long diff = end.getTime() - start.getTime();
-        System.out.println( (diff / 1000 / 60) / 60 + "h " + (diff / 1000 /60) % 60 + "m");
+        System.out.println( (diff / 1000 / 60) / 60 + "h " + (diff / 1000 /60) % 60 + "m" );
 
         System.out.println(end.compareTo(start));
 
+    }
 
+    @Test
+    public void dateTest() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("No1 : "+ sdf.format(new Date()));
+        System.out.println("No2 : "+ new Timestamp(System.currentTimeMillis()).getTime());
+        System.out.println("No3 : "+ sdf.format(new Timestamp(System.currentTimeMillis()).getTime()));
+    }
+
+    @Test
+    public void compareDay() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String endDate = "2024-07-10 23:59:59";
+        Timestamp endTimestamp = Timestamp.valueOf(endDate);
+        String endTime = sdf.format(endTimestamp);
+        System.out.println("End Timestamp : " + endTimestamp);
+        System.out.println("End Timestamp yyyy-MM-dd : " + endTime);
+
+        Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+        String todayTime = sdf.format(todayTimestamp);
+        System.out.println("Today Timestamp : " + todayTimestamp);
+        System.out.println("Today Timestamp yyyy-MM-dd: " + todayTime);
+
+        String todayStr = sdf.format(new Date());
+        System.out.println("Today Str : " + todayStr);
+
+        System.out.println(endTime.equals(todayTime));
+
+        Timestamp prevEnd = Timestamp.valueOf(endTime + " 00:00:00");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(prevEnd);
+        cal.add(Calendar.DAY_OF_WEEK, 1);
+        Timestamp newStartTimestamp = new Timestamp(cal.getTime().getTime());
+        System.out.println("newStartTimestamp : " + newStartTimestamp);
+
+    }
+
+    @Test
+    public void lastDayOfTheMonth() {
+        Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        Timestamp newNextEndTimestamp = new Timestamp(cal.getTime().getTime());
+        System.out.println("newNextEndTimestamp : " + newNextEndTimestamp);
+    }
+
+    @Test
+    public void laterOneMonth() {
+        Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.add(Calendar.MONTH, 1);
+
+        Timestamp nextMonthDate = new Timestamp(cal.getTime().getTime());
+        System.out.println(nextMonthDate);
+    }
+
+    @Test
+    public void nextEndDay() {
+        String start = "2024-05-31 13:59:59";
+        Timestamp todayTimestamp = Timestamp.valueOf(start);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.add(Calendar.MONTH, 1);
+        if (true) {
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        }
+
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        Timestamp newNextEndTimestamp = new Timestamp(cal.getTime().getTime());
+        System.out.println("newNextEndTimestamp : " + newNextEndTimestamp);
     }
 
 }

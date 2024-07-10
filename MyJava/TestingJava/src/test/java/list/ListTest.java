@@ -215,4 +215,11 @@ public class ListTest {
             this.money = money;
         }
     }
+
+    @Test
+    public void emptyTest() {
+        List<String> list = new ArrayList();
+
+
+    }
 }
