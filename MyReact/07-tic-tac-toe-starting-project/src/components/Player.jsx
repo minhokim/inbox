@@ -9,7 +9,10 @@ export default function Player({ initialName, symbol }) {
         // 즉각적인 상태 변경이 되지 않고 스케줄링한다.             
         //setIsEditing(!isEditing);
         // () 함수를 리액트가 호출하여 자동으로 현재 상태값을 가지게 된다. 가장 최신버전의 상태
-        setIsEditing((editing) => !editing);
+        setIsEditing((editing) => {
+            console.log(editing);
+            return !editing;
+        });
     }
 
     function handleChange(event) {
