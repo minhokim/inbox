@@ -64,5 +64,33 @@ public class EtcTest {
         System.out.println(energyKw);
     }
 
+    @Test
+    public void rateTest() {
+        int price = 1000;
+        double disRate = 5.1;
+
+        int chargeAmount = (int) (price - (price * (disRate / 100)));
+        System.out.println(chargeAmount);
+
+        double pRate = 3.2;
+        int pnt = (int) (chargeAmount * (pRate / 100));
+        System.out.println("pnt : " + pnt);
+
+    }
+
+    @Test
+    public void capacity() {
+        double rangeMin = 0.95;
+        double energy = 49.2345;
+        double configuredEnergy = 50.0;
+        double range = energy / configuredEnergy;
+
+        if (range >= rangeMin) {
+            System.out.println("range is " + range + ",  rangeMin is " + rangeMin);
+        }
+
+        System.out.println("range : " + range);
+    }
+
 
 }
