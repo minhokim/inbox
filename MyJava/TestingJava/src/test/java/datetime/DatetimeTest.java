@@ -232,4 +232,15 @@ public class DatetimeTest {
         System.out.println("newNextEndTimestamp : " + newNextEndTimestamp);
     }
 
+    @Test
+    public void plusOneDay() {
+        String start = "2024-08-05 16:40:05";
+        Timestamp todayTimestamp = Timestamp.valueOf(start);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        Timestamp newNextEndTimestamp = new Timestamp(cal.getTime().getTime());
+        System.out.println(newNextEndTimestamp);
+    }
+
 }
