@@ -50,6 +50,12 @@ public class SubstringTest {
         System.out.println(list.contains("aa"));
     }
 
+    @Test
+    public void endWith() {
+        String str = "abc@gmail.com::csms";
+        System.out.println(str.endsWith("::csms"));
+        System.out.println(str.split("::")[0]);
+    }
 
 
 }

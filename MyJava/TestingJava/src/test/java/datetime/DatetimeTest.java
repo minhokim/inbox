@@ -136,7 +136,7 @@ public class DatetimeTest {
     @Test
     public void diffTime() {
         String strDateStart = "2024-02-24 10:30:05";
-        String strDateEnd = "2024-02-24 10:35:05";
+        String strDateEnd = "2024-02-24 10:37:35";
         Timestamp start = Timestamp.valueOf(strDateStart);
         Timestamp end = Timestamp.valueOf(strDateEnd);
 
@@ -147,6 +147,8 @@ public class DatetimeTest {
         System.out.println( (diff / 1000 / 60) / 60 + "h " + (diff / 1000 /60) % 60 + "m" );
 
         System.out.println(end.compareTo(start));
+
+        System.out.println("tt : " + (diff / 1000 / 60));
 
     }
 
