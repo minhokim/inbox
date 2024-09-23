@@ -5,10 +5,12 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EtcTest {
+    private static final Long MEMBER_NO = 9000000000l;
 
     @Test
     public void randomStr() {
@@ -91,6 +93,26 @@ public class EtcTest {
 
         System.out.println("range : " + range);
     }
+
+    @Test
+    public void bigDecimalTest() {
+        BigDecimal aa = new BigDecimal("30");
+        BigDecimal bb = BigDecimal.valueOf(1000).multiply(aa);
+
+        System.out.println(bb);
+    }
+
+    @Test
+    public void equalsLong() {
+        Long memberNo = 9000000000l;
+        if (MEMBER_NO.equals(memberNo)) {
+            System.out.println("true");
+        }
+
+    }
+
+
+
 
 
 }

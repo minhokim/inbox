@@ -100,7 +100,10 @@ public class ListTest {
     public void sortList() {
         List<Pay> list = getList();
 
-        list.sort(Comparator.comparing(Pay::getName).reversed());
+        //list.sort(Comparator.comparing(Pay::getName).reversed());
+//        list.sort( Comparator.comparing( Pay::getName, Comparator.nullsLast(Comparator.reverseOrder()) ) );
+//        list.sort( Comparator.comparing( Pay::getName, Comparator.nullsLast(Comparator.naturalOrder()) ) );
+        list.sort( Comparator.comparing( Pay::getName, Comparator.nullsFirst(Comparator.naturalOrder()) ) );
         list.forEach(l -> System.out.println(l.getName() + " : " + l.getMoney()));
     }
 
@@ -183,24 +186,27 @@ public class ListTest {
     }
 
     private static List<Pay> getList() {
-        return List.of(
-                new Pay("web", 1),
-                new Pay("wed", 1),
-                new Pay("mon", 1),
-                new Pay("tue", 1)
-        );
+        List<Pay> list = new ArrayList<>();
+        list.add(new Pay(null, 100));
+        list.add(new Pay("web", 700));
+        list.add(new Pay("mon", 500));
+        list.add(new Pay("tue", 300));
+
+        return list;
     }
 
     private static List<Pay> getDayList() {
-        return List.of(
-                new Pay("7", 1),
-                new Pay("5", 1),
-                new Pay("3", 1),
-                new Pay("1", 1),
-                new Pay("7", 1),
-                new Pay("5", 1),
-                new Pay("3", 1)
-        );
+        List<Pay> list = new ArrayList<>();
+        list.add(new Pay("7", 1));
+        list.add(new Pay("5", 1));
+        list.add(new Pay("3", 1));
+        list.add(new Pay("1", 1));
+        list.add(new Pay("7", 1));
+        list.add(new Pay("5", 1));
+        list.add(new Pay("3", 1));
+
+
+        return list;
     }
 
     // TODO: 3/7/24  Test

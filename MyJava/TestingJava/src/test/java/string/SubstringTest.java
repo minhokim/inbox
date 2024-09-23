@@ -32,6 +32,9 @@ public class SubstringTest {
 
         String ch = "Response:STA_CH_001";
         System.out.println("ch : "+ch.substring(ch.indexOf(":")+1));
+
+        String code = "XH09000000000000";
+        System.out.println("code : " + code.substring(0, 4));
     }
 
     @Test

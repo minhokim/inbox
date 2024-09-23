@@ -9,10 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.Year;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -135,8 +132,8 @@ public class DatetimeTest {
 
     @Test
     public void diffTime() {
-        String strDateStart = "2024-02-24 10:30:05";
-        String strDateEnd = "2024-02-24 10:37:35";
+        String strDateStart = "2024-08-05 10:30:05";
+        String strDateEnd = "2024-08-07 12:37:35";
         Timestamp start = Timestamp.valueOf(strDateStart);
         Timestamp end = Timestamp.valueOf(strDateEnd);
 
@@ -148,7 +145,23 @@ public class DatetimeTest {
 
         System.out.println(end.compareTo(start));
 
-        System.out.println("tt : " + (diff / 1000 / 60));
+        long diffMinutes = (diff / 1000) / 60;
+        long diffHours = ((diff / 1000) / 60) / 60;
+        long diffDays = (((diff / 1000) / 60) / 60) / 24;
+
+
+        System.out.println("diffHours : " + diffHours);
+        System.out.println("diffDays : " + diffDays);
+
+        if (diffMinutes < 60) {
+            System.out.println(diffMinutes + "分前に使用");
+        }
+
+        if (diffHours < 24) {
+            System.out.println(diffHours + "時間" + diffMinutes % 60 + "分前に使用");
+        }
+
+        System.out.println(diffDays + "日前に使用");
 
     }
 
@@ -204,6 +217,34 @@ public class DatetimeTest {
     }
 
     @Test
+    public void firstDayOfThePrevMonth() {
+        Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.add(Calendar.MONTH, -1);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+        Timestamp prevMonthDate = new Timestamp(cal.getTime().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String firstDay = sdf.format(prevMonthDate);
+        System.out.println("firstDay : " + firstDay);
+    }
+
+    @Test
+    public void lastDayOfThePrevMonth() {
+        Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.add(Calendar.MONTH, -1);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        Timestamp prevMonthDate = new Timestamp(cal.getTime().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String lastDay = sdf.format(prevMonthDate);
+        System.out.println("lastDay : " + lastDay);
+    }
+
+    @Test
     public void laterOneMonth() {
         Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
         Calendar cal = Calendar.getInstance();
@@ -212,6 +253,20 @@ public class DatetimeTest {
 
         Timestamp nextMonthDate = new Timestamp(cal.getTime().getTime());
         System.out.println(nextMonthDate);
+    }
+
+    @Test
+    public void prevMonth() {
+        Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.add(Calendar.MONTH, -1);
+
+        Timestamp prevMonthDate = new Timestamp(cal.getTime().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        String prevMonth = sdf.format(prevMonthDate);
+
+        System.out.println("prevMonth : " + prevMonth);
     }
 
     @Test
@@ -244,5 +299,38 @@ public class DatetimeTest {
         Timestamp newNextEndTimestamp = new Timestamp(cal.getTime().getTime());
         System.out.println(newNextEndTimestamp);
     }
+
+    @Test
+    public void setMidnight() {
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println("currentTimestamp1 : " + currentTimestamp);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentTimestamp);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Timestamp newCurrentTimestamp = new Timestamp(calendar.getTime().getTime());
+
+        System.out.println("newCurrentTimestamp : " + newCurrentTimestamp);
+    }
+
+    @Test
+    public void timestampValueOf() {
+        String date = "2024-08-30";
+        Timestamp timestamp = Timestamp.valueOf(date + " 00:00:00");
+
+        System.out.println("timestamp : " + timestamp);
+    }
+
+    @Test
+    public void ttt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.now().minusDays(1);
+        System.out.println(formatter.format(date));
+    }
+
 
 }
