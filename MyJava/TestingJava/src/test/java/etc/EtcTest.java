@@ -111,6 +111,16 @@ public class EtcTest {
 
     }
 
+    @Test
+    public void equalBoolean() {
+        Boolean isTrue = true;
+
+        if (Boolean.TRUE.equals(isTrue)) {
+            System.out.println("true");
+        }
+
+    }
+
 
 
 
