@@ -300,6 +300,32 @@ public class DatetimeTest {
         System.out.println(newNextEndTimestamp);
     }
 
+
+    @Test
+    public void compareTimestamp() {
+        String start = "2024-10-01 00:00:00";
+        String end = "2024-12-31 00:00:00";
+
+        Timestamp startTimestamp = Timestamp.valueOf(start);
+        Timestamp endTimestamp = Timestamp.valueOf(end);
+
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+
+        System.out.println("currentTimestamp : " + currentTimestamp);
+        System.out.println("startTimestamp : " + startTimestamp);
+        System.out.println("endTimestamp : " + endTimestamp);
+
+        System.out.println(currentTimestamp.compareTo(startTimestamp));
+        System.out.println(currentTimestamp.compareTo(endTimestamp));
+        System.out.println(currentTimestamp.compareTo(currentTimestamp));
+
+        System.out.println(currentTimestamp.after(startTimestamp));
+        System.out.println(currentTimestamp.before(endTimestamp));
+
+        System.out.println(currentTimestamp.after(currentTimestamp));
+        System.out.println(currentTimestamp.before(currentTimestamp));
+    }
+
     @Test
     public void setMidnight() {
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());

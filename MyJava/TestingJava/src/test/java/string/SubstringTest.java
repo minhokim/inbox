@@ -35,13 +35,17 @@ public class SubstringTest {
 
         String code = "XH09000000000000";
         System.out.println("code : " + code.substring(0, 4));
+
+        String pId = "IO1000002345";
+        System.out.println("pId : " + pId.substring(2));
     }
 
     @Test
     public void prevUnit() {
         String str = "3kW";
-        System.out.println(str.indexOf("kW"));
-        System.out.println(str.substring(0, str.indexOf("kW")));
+        System.out.println(str.toLowerCase());
+        System.out.println(str.toLowerCase().indexOf("kw"));
+        System.out.println(str.substring(0, str.toLowerCase().indexOf("kw")));
     }
 
     @Test

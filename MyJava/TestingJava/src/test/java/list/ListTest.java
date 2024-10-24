@@ -1,5 +1,6 @@
 package list;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.Test;
@@ -224,8 +225,23 @@ public class ListTest {
 
     @Test
     public void emptyTest() {
-        List<String> list = new ArrayList();
+        Hq hq = new Hq();
+        hq.setHqName("HQ_A");
 
 
+    }
+
+    @Setter
+    @Getter
+    public static class Hq {
+        private String hqName;
+        private List<Team> teams;
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    public static class Team {
+        private String teamName;
     }
 }
