@@ -111,23 +111,6 @@ public class EtcTest {
 
     }
 
-    @Test
-    public void equalBoolean() {
-        Boolean isTrue = true;
-
-        if (Boolean.TRUE.equals(isTrue)) {
-            System.out.println("true");
-        }
-    }
-
-    @Test
-    public void empty() {
-        String str = "";
-
-        if (StringUtils.isEmpty(str)) {
-            System.out.println("null");
-        }
-    }
 
 
 

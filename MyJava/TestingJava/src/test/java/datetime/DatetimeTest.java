@@ -358,5 +358,13 @@ public class DatetimeTest {
         System.out.println(formatter.format(date));
     }
 
+    @Test
+    public void jodaDatetime() {
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        System.out.println(now);
+
+        String nowStr = now.toString();
+        System.out.println(nowStr);
+    }
 
 }
