@@ -300,6 +300,17 @@ public class DatetimeTest {
         System.out.println(newNextEndTimestamp);
     }
 
+    @Test
+    public void plusOneMonth() {
+        String start = "2024-08-05 00:00:00";
+        Timestamp todayTimestamp = Timestamp.valueOf(start);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(todayTimestamp);
+        cal.add(Calendar.MONTH, 1);
+        Timestamp newNextEndTimestamp = new Timestamp(cal.getTime().getTime());
+        System.out.println(newNextEndTimestamp);
+    }
+
 
     @Test
     public void compareTimestamp() {

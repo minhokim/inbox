@@ -111,10 +111,15 @@ public class EtcTest {
 
     }
 
+    @Test
+    public void commission() {
+        int amt = 244;
+        int commission = (int) (amt * (10d / 100));
+        System.out.println(commission);
 
-
-
-
+        int vat = (int) (commission * 0.1);
+        System.out.println(vat);
+    }
 
 
 }

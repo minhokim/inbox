@@ -113,9 +113,14 @@ public class ObjectMapperTest {
 
     @Test
     public void strToTimestamp() {
-        String str = "20231031112349";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(str));
+//        String str = "20231031112349";
+        String str = "2024-12-18T14:52:59.927302+09:00".replace("T", "");
+        String newStr = str.substring(0, str.indexOf("."));
+
+        System.out.println(newStr);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(newStr));
         Timestamp timestamp = Timestamp.valueOf(localDateTime);
         System.out.println(timestamp);
     }
