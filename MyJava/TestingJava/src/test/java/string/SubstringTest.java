@@ -64,5 +64,12 @@ public class SubstringTest {
         System.out.println(str.split("::")[0]);
     }
 
+    @Test
+    public void getDay() {
+        String str = "2025-01-03";
+        String resultStr = str.substring(str.length() - 2, str.length());
+        int day = Integer.parseInt(resultStr);
+        System.out.println(day);
+    }
 
 }
