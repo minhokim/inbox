@@ -27,7 +27,9 @@ public class ConsumerBasicTest {
     @Test
     public void basicStep3() {
         List<String> list = Arrays.asList("a", "ab", "abc");
-        forEach(list, (String x) -> System.out.println(x.length()));
+        //forEach(list, (String x) -> System.out.println(x.length()));
+        Consumer<String> printStr = s -> System.out.println(s);
+        list.forEach(printStr);
     }
 
     @Test
