@@ -6,8 +6,10 @@ import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EtcTest {
     private static final Long MEMBER_NO = 9000000000l;
@@ -120,6 +122,32 @@ public class EtcTest {
         int vat = (int) (commission * 0.1);
         System.out.println(vat);
     }
+
+    @Test
+    public void arrayCopyTest() {
+        Integer[] arr = {1, 2, 3, 4, 5};
+        Integer[] arr1 = Arrays.copyOfRange(arr, 0, 2);
+        Integer[] arr2 = Arrays.copyOfRange(arr, 3, 4);
+
+        System.out.println(Arrays.toString(arr1));
+        System.out.println(Arrays.toString(arr2));
+
+        int[] intArr = Arrays.stream(arr)
+                .mapToInt(Integer::valueOf)
+                .toArray();
+
+        String strJoin = Arrays.stream(intArr)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining());
+
+        System.out.println(strJoin);
+
+
+        Arrays.stream(arr)
+                .map(k -> k.toString())
+
+    }
+
 
 
 }

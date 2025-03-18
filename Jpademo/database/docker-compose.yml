@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  postgres:
+    image: bitnami/postgresql:17
+    container_name: postgres_jpa_demo
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data/postgres:/bitnami/postgresql
+    environment:
+      POSTGRESQL_USERNAME: postgres
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_DATABASE: jpademo
