@@ -142,10 +142,6 @@ public class EtcTest {
 
         System.out.println(strJoin);
 
-
-        Arrays.stream(arr)
-                .map(k -> k.toString())
-
     }
 
 

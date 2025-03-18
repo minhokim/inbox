@@ -38,6 +38,7 @@ public class SubstringTest {
 
         String pId = "IO1000002345";
         System.out.println("pId : " + pId.substring(2));
+
     }
 
     @Test
