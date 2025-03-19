@@ -2,7 +2,8 @@ package kr.re.bgp.jpademo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.joda.time.DateTime;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "charge_station")
@@ -16,7 +17,8 @@ public class ChargeStation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stationId;
     private String stationName;
-    private DateTime created;
+    private String chargeBoxId;
+    private Date created;
 
     @ManyToOne(optional = true)    //optional = false INNER JOIN
     @JoinColumn(name = "place_id")

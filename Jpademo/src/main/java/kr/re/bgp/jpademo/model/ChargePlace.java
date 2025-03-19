@@ -1,12 +1,10 @@
 package kr.re.bgp.jpademo.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-import org.joda.time.DateTime;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,7 +22,7 @@ public class ChargePlace {
     private Double latitude;
     private Double longitude;
 
-    private Timestamp created;
+    private Date created;
 
     @OneToMany(mappedBy = "place")
     @Builder.Default
