@@ -5,8 +5,6 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./data/postgres:/bitnami/postgresql
+      - /Users/ron/DockerComposeFiles/postgres_jpademo/data/postgres:/bitnami/postgresql
     environment:
-      POSTGRESQL_USERNAME: postgres
-      POSTGRESQL_PASSWORD: postgres
-      POSTGRESQL_DATABASE: jpademo
+      POSTGRESQL_PASSWORD: iloveyou

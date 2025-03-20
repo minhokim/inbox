@@ -1,6 +1,6 @@
 package kr.re.bgp.jpademo.service;
 
-import kr.re.bgp.jpademo.model.ChargePlace;
+import kr.re.bgp.jpademo.entity.ChargePlace;
 import kr.re.bgp.jpademo.repository.ChargePlaceRepository;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -25,9 +25,8 @@ public class ChargePlaceServiceTest {
     @Test
     public void saveChargePlace() {
 
-        DateTime dateTime = DateTime.now();
-        long longTimestamp = dateTime.getMillis();
-        Timestamp created = new Timestamp(longTimestamp);
+        DateTime dateTime = DateTime.now(DateTimeZone.UTC);
+        Timestamp created = new Timestamp(dateTime.getMillis());
 
         ChargePlace chargePlace = ChargePlace.builder()
                 .placeName("Test Place")
