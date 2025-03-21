@@ -1,6 +1,7 @@
 package kr.re.bgp.jpademo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,6 @@ import java.util.List;
 @Table(name = "charge_place")
 @Setter
 @Getter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +32,8 @@ public class ChargePlace {
     private Timestamp created;
 
     @OneToMany(mappedBy = "place", fetch = FetchType.EAGER)  //OneToMany의 기본 설정은 FetchType.LAZY
-    @Builder.Default
+    @JsonManagedReference
+    //@Builder.Default
     private List<ChargeStation> stations = new ArrayList<>();
 
 }

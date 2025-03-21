@@ -2,6 +2,7 @@ package kr.re.bgp.jpademo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,15 +30,16 @@ public class ChargeStation {
     private Timestamp created;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)    //optional = false INNER JOIN
+    @JsonBackReference
     @JoinColumn(name = "place_id")
     private ChargePlace place;      //외래 키를 가진 엔티티가 연관관계의 소유자
 
     @Transient
     private Long placeId;
 
-    public void setPlace(ChargePlace place) {
+    /*public void setPlace(ChargePlace place) {
         this.place = place;
         place.getStations().add(this);
-    }
+    }*/
 
 }

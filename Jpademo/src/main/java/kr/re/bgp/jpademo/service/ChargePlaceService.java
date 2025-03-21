@@ -23,7 +23,8 @@ public class ChargePlaceService {
     }
 
     public ChargePlace retrieve(Long id) {
-        return repository.findById(id).orElse(null);
+        ChargePlace chargePlace = repository.findById(id).orElse(null);
+        return chargePlace;
     }
 
     public List<ChargePlace> list() {
