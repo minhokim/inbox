@@ -31,9 +31,8 @@ public class ChargePlace {
     @CreationTimestamp
     private Timestamp created;
 
-    @OneToMany(mappedBy = "place", fetch = FetchType.EAGER)  //OneToMany의 기본 설정은 FetchType.LAZY
-    @JsonManagedReference
+    //@OneToMany(mappedBy = "place", fetch = FetchType.LAZY)  //OneToMany의 기본 설정은 FetchType.LAZY
     //@Builder.Default
-    private List<ChargeStation> stations = new ArrayList<>();
+    //private List<ChargeStation> stations = new ArrayList<>();
 
 }

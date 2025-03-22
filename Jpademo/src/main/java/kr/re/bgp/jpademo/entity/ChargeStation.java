@@ -29,8 +29,7 @@ public class ChargeStation {
     @CreationTimestamp
     private Timestamp created;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)    //optional = false INNER JOIN
-    @JsonBackReference
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)    //optional = false INNER JOIN
     @JoinColumn(name = "place_id")
     private ChargePlace place;      //외래 키를 가진 엔티티가 연관관계의 소유자
 
