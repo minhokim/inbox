@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChargePlace {
