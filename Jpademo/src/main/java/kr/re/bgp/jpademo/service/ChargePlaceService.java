@@ -24,10 +24,21 @@ public class ChargePlaceService {
 
     public ChargePlace retrieve(Long id) {
         ChargePlace chargePlace = repository.findById(id).orElse(null);
+
         return chargePlace;
     }
 
     public List<ChargePlace> list() {
         return repository.findAll();
     }
+
+    public List<ChargePlace> findByPlaceName(String placeName) {
+        return repository.findByPlaceName(placeName);
+    }
+
+    public List<ChargePlace> findByPlaceNameContaining(String placeName) {
+        return repository.findByPlaceNameContaining(placeName);
+    }
+
+
 }

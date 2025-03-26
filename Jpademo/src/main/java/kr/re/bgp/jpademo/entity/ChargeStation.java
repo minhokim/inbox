@@ -3,6 +3,7 @@ package kr.re.bgp.jpademo.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,6 +18,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChargeStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +35,7 @@ public class ChargeStation {
     @JoinColumn(name = "place_id")
     private ChargePlace place;      //외래 키를 가진 엔티티가 연관관계의 소유자
 
-    @Transient
-    private Long placeId;
+    private transient Long placeId;
 
     /*public void setPlace(ChargePlace place) {
         this.place = place;

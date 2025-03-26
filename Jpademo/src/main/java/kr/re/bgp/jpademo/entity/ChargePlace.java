@@ -2,7 +2,6 @@ package kr.re.bgp.jpademo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,8 +30,8 @@ public class ChargePlace {
     @CreationTimestamp
     private Timestamp created;
 
-    //@OneToMany(mappedBy = "place", fetch = FetchType.LAZY)  //OneToMany의 기본 설정은 FetchType.LAZY
-    //@Builder.Default
-    //private List<ChargeStation> stations = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)  //OneToMany의 기본 설정은 FetchType.LAZY
+    private List<ChargeStation> stations = new ArrayList<>();
 
 }

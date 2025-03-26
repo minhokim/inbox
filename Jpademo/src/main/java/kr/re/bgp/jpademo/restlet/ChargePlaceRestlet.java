@@ -17,6 +17,16 @@ public class ChargePlaceRestlet {
         return ResponseEntity.ok(service.list());
     }
 
+    @GetMapping("/findByPlaceName/{placeName}")
+    public ResponseEntity<Object> findByPlaceName(@PathVariable String placeName) {
+        return ResponseEntity.ok(service.findByPlaceName(placeName));
+    }
+
+    @GetMapping("/findByPlaceNameContaining/{placeName}")
+    public ResponseEntity<Object> findByPlaceNameContaining(@PathVariable String placeName) {
+        return ResponseEntity.ok(service.findByPlaceNameContaining(placeName));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Object> create(@RequestBody ChargePlace chargePlace) {
         return ResponseEntity.ok(service.create(chargePlace));

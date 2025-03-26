@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HibernateModuleConfig {
 
-    //지연로딩 프록시 객체 이슈 해결
+    //지연로딩 프록시 객체의 Infinite recursion 이슈 대응
     @Bean
     Hibernate5JakartaModule hibernate5JakartaModule(){
         Hibernate5JakartaModule hibernate5JakartaModule = new Hibernate5JakartaModule();
