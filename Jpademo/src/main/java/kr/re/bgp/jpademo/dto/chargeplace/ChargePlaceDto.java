@@ -1,4 +1,4 @@
-package kr.re.bgp.jpademo.dto;
+package kr.re.bgp.jpademo.dto.chargeplace;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.re.bgp.jpademo.entity.ChargeStation;
