@@ -1,7 +1,7 @@
 package kr.re.bgp.jpademo.service;
 
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
-import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceRequestDto;
+import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceUpdateDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
 import kr.re.bgp.jpademo.entity.ChargePlace;
 import kr.re.bgp.jpademo.repository.ChargePlaceRepository;
@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -21,15 +20,15 @@ public class ChargePlaceService {
     private final ChargePlaceRepository repository;
 
     public ChargePlaceResponseDto create(ChargePlaceCreateDto dto) {
-        return getResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
+        return getChargePlaceResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
     }
 
-    public ChargePlaceResponseDto update(ChargePlaceRequestDto dto) {
+    public ChargePlaceResponseDto update(ChargePlaceUpdateDto dto) {
         ChargePlace chargePlace = repository.save(convertObjectToClass(dto, ChargePlace.class));
-        return getResponseDto(chargePlace);
+        return getChargePlaceResponseDto(chargePlace);
     }
 
-    private ChargePlaceResponseDto getResponseDto(ChargePlace chargePlace) {
+    private ChargePlaceResponseDto getChargePlaceResponseDto(ChargePlace chargePlace) {
         return convertObjectToClass(chargePlace, ChargePlaceResponseDto.class);
     }
 
@@ -41,9 +40,10 @@ public class ChargePlaceService {
         return repository.findById(id).orElse(null);
     }
 
-    public ChargePlaceResponseDto getResponseDto(Long id) {
-        Optional<ChargePlace> chargePlace = repository.findById(id);
-        return chargePlace.map(this::getResponseDto).orElse(null);
+    public ChargePlaceResponseDto getChargePlaceResponseDto(Long id) {
+        return repository.findById(id)
+                .map(this::getChargePlaceResponseDto)
+                .orElse(null);
     }
 
     public void delete(Long id) {

@@ -5,6 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ChargePlaceRequestDto extends ChargePlaceCreateDto {
+public class ChargePlaceUpdateDto extends ChargePlaceCreateDto {
     private Long placeId;
 }

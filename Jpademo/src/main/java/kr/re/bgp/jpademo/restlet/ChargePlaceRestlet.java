@@ -2,7 +2,7 @@ package kr.re.bgp.jpademo.restlet;
 
 import kr.re.bgp.jpademo.config.ApiError;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
-import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceRequestDto;
+import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceUpdateDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
 import kr.re.bgp.jpademo.service.ChargePlaceService;
 import lombok.AllArgsConstructor;
@@ -34,13 +34,13 @@ public class ChargePlaceRestlet {
     }
 
     @PutMapping(UPDATE_PATH)
-    public ResponseEntity<Object> update(@RequestBody ChargePlaceRequestDto dto) {
+    public ResponseEntity<Object> update(@RequestBody ChargePlaceUpdateDto dto) {
         return ResponseEntity.ok(Map.of("item", service.update(dto)));
     }
 
     @GetMapping(RETRIEVE_PATH)
     public ResponseEntity<Object> retrieve(@PathVariable(name = "placeId") Long placeId) {
-        ChargePlaceResponseDto dto = retrieveChargePlace(placeId);
+        ChargePlaceResponseDto dto = service.getChargePlaceResponseDto(placeId);
 
         if (dto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -50,15 +50,10 @@ public class ChargePlaceRestlet {
         return ResponseEntity.ok(Map.of("item", dto));
     }
 
-    private ChargePlaceResponseDto retrieveChargePlace(Long placeId) {
-        return service.getResponseDto(placeId);
-    }
-
     @DeleteMapping(DELETE_PATH)
     public ResponseEntity<Object> delete(@PathVariable(name = "placeId") Long placeId) {
-        ChargePlaceResponseDto dto = retrieveChargePlace(placeId);
 
-        if (dto == null) {
+        if (service.retrieve(placeId) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()));
         }
