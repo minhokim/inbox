@@ -40,7 +40,7 @@ public class ChargePlaceRestlet {
 
     @GetMapping(RETRIEVE_PATH)
     public ResponseEntity<Object> retrieve(@PathVariable(name = "placeId") Long placeId) {
-        ChargePlaceResponseDto dto = service.getChargePlaceResponseDto(placeId);
+        ChargePlaceResponseDto dto = service.retrieve(placeId);
 
         if (dto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -53,7 +53,7 @@ public class ChargePlaceRestlet {
     @DeleteMapping(DELETE_PATH)
     public ResponseEntity<Object> delete(@PathVariable(name = "placeId") Long placeId) {
 
-        if (service.retrieve(placeId) == null) {
+        if (service.retrieveChargePlace(placeId) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()));
         }

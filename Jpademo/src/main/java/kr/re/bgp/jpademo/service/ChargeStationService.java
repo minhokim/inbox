@@ -17,7 +17,7 @@ public class ChargeStationService {
     private final ChargeStationRepository chargeStationrepository;
 
     public ChargeStation create(ChargeStation chargeStation) {
-        ChargePlace chargePlace = chargePlaceService.retrieve(chargeStation.getPlaceId());
+        ChargePlace chargePlace = chargePlaceService.retrieveChargePlace(chargeStation.getPlaceId());
         chargeStation.setPlace(chargePlace);
         return chargeStationrepository.save(chargeStation);
     }

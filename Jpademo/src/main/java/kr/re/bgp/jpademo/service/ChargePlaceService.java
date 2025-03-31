@@ -24,8 +24,7 @@ public class ChargePlaceService {
     }
 
     public ChargePlaceResponseDto update(ChargePlaceUpdateDto dto) {
-        ChargePlace chargePlace = repository.save(convertObjectToClass(dto, ChargePlace.class));
-        return getChargePlaceResponseDto(chargePlace);
+        return getChargePlaceResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
     }
 
     private ChargePlaceResponseDto getChargePlaceResponseDto(ChargePlace chargePlace) {
@@ -36,18 +35,18 @@ public class ChargePlaceService {
         return modelMapper.map(source, destinationClass);
     }
 
-    public ChargePlace retrieve(Long id) {
-        return repository.findById(id).orElse(null);
+    public ChargePlace retrieveChargePlace(Long placeId) {
+        return repository.findById(placeId).orElse(null);
     }
 
-    public ChargePlaceResponseDto getChargePlaceResponseDto(Long id) {
-        return repository.findById(id)
+    public ChargePlaceResponseDto retrieve(Long placeId) {
+        return repository.findById(placeId)
                 .map(this::getChargePlaceResponseDto)
                 .orElse(null);
     }
 
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public void delete(Long placeId) {
+        repository.deleteById(placeId);
     }
 
     public List<ChargePlace> list() {
