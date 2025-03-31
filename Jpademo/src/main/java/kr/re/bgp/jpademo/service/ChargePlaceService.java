@@ -21,15 +21,15 @@ public class ChargePlaceService {
     private final ChargePlaceRepository repository;
 
     public ChargePlaceResponseDto create(ChargePlaceCreateDto dto) {
-        return retrieveResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
+        return getResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
     }
 
     public ChargePlaceResponseDto update(ChargePlaceRequestDto dto) {
         ChargePlace chargePlace = repository.save(convertObjectToClass(dto, ChargePlace.class));
-        return retrieveResponseDto(chargePlace);
+        return getResponseDto(chargePlace);
     }
 
-    private ChargePlaceResponseDto retrieveResponseDto(ChargePlace chargePlace) {
+    private ChargePlaceResponseDto getResponseDto(ChargePlace chargePlace) {
         return convertObjectToClass(chargePlace, ChargePlaceResponseDto.class);
     }
 
@@ -41,19 +41,19 @@ public class ChargePlaceService {
         return repository.findById(id).orElse(null);
     }
 
-    public ChargePlaceResponseDto retrieveResponseDto(Long id) {
+    public ChargePlaceResponseDto getResponseDto(Long id) {
         Optional<ChargePlace> chargePlace = repository.findById(id);
-        return chargePlace.map(this::retrieveResponseDto).orElse(null);
+        return chargePlace.map(this::getResponseDto).orElse(null);
     }
 
-    public Long delete(Long id) {
+    public void delete(Long id) {
         repository.deleteById(id);
-        return id;
     }
 
     public List<ChargePlace> list() {
         return repository.findAll();
     }
+
 
     public List<ChargePlace> findByPlaceName(String placeName) {
         return repository.findByPlaceName(placeName);

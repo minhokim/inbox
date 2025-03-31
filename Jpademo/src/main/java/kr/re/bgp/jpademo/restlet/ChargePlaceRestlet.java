@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -26,21 +25,17 @@ public class ChargePlaceRestlet {
 
     @PostMapping(LIST_PATH)
     public ResponseEntity<Object> list() {
-        return ResponseEntity.ok(service.list());
+        return ResponseEntity.ok(Map.of("items", service.list()));
     }
 
     @PostMapping(CREATE_PATH)
     public ResponseEntity<Object> create(@RequestBody ChargePlaceCreateDto dto) {
-        Map<String, Object> res = new HashMap<>();
-        res.put("item", service.create(dto));
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(Map.of("item", service.create(dto)));
     }
 
     @PutMapping(UPDATE_PATH)
     public ResponseEntity<Object> update(@RequestBody ChargePlaceRequestDto dto) {
-        Map<String, Object> res = new HashMap<>();
-        res.put("item", service.update(dto));
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(Map.of("item", service.update(dto)));
     }
 
     @GetMapping(RETRIEVE_PATH)
@@ -52,13 +47,11 @@ public class ChargePlaceRestlet {
                     .body(new ApiError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()));
         }
 
-        Map<String, Object> res = new HashMap<>();
-        res.put("item", dto);
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(Map.of("item", dto));
     }
 
     private ChargePlaceResponseDto retrieveChargePlace(Long placeId) {
-        return service.retrieveResponseDto(placeId);
+        return service.getResponseDto(placeId);
     }
 
     @DeleteMapping(DELETE_PATH)
