@@ -26,7 +26,7 @@ public class ChargePlaceRestlet {
 
     @PostMapping(LIST_PATH)
     public ResponseEntity<Object> list(@RequestBody ListParam param) {
-        return ResponseEntity.ok(Map.of("items", service.listByCriteria(param)));
+        return ResponseEntity.ok(service.listByCriteria(param));
     }
 
     @PostMapping(CREATE_PATH)

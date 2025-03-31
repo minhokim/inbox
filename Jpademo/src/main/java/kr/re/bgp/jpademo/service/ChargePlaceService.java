@@ -63,69 +63,63 @@ public class ChargePlaceService {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<ChargePlace> criteriaQuery = builder.createQuery(ChargePlace.class);
 
-        Root<ChargePlace> chargePlace = criteriaQuery.from(ChargePlace.class);
-        criteriaQuery.select(chargePlace);
+        Root<ChargePlace> chargePlaceRoot = criteriaQuery.from(ChargePlace.class);
+        criteriaQuery.select(chargePlaceRoot);
 
-        List<Predicate> condition = new ArrayList<>();
-        for (SearchCondition search : param.getSearchConditions()) {
-            if ("placeName".equals(search.getSearchKey())) {
-                condition.add(builder.like(chargePlace.get(search.getSearchKey()), "%"+search.getSearchValue()+"%"));
-            } else if ("placeId".equals(search.getSearchKey())) {
-                condition.add(builder.equal(chargePlace.get("placeId"), search.getSearchValue()));
-            }
-        }
-
-        Predicate predicate = builder.and(condition.toArray(new Predicate[condition.size()]));
+        Predicate predicate = paramToPredicate(builder, chargePlaceRoot, param);
         criteriaQuery.where(predicate);
 
-//        List<Order> orders = retrieveOrders(param, builder, chargePlace);
-        List<Order> orders = new ArrayList<>();
-        for (SortCondition sortCondition : param.getSortConditions()) {
-            if (!StringUtils.isEmpty(sortCondition.getSortKey()) && !StringUtils.isEmpty(sortCondition.getSortDirection().value())) {
-                if ("ASC".equalsIgnoreCase(sortCondition.getSortDirection().value())) {
-                    orders.add(builder.asc(chargePlace.get(sortCondition.getSortKey())));
-                } else if ("DESC".equalsIgnoreCase(sortCondition.getSortDirection().value())) {
-                    orders.add(builder.desc(chargePlace.get(sortCondition.getSortKey())));
-                }
-            }
-        }
-
-        Order[] orderArray = orders.toArray(new Order[orders.size()]);
-
+        Order[] orderArray = paramToOrders(builder, chargePlaceRoot, param);
         criteriaQuery.orderBy(orderArray);
 
         TypedQuery<ChargePlace> query = entityManager.createQuery(criteriaQuery);
-        query.setFirstResult(param.getPage());
+        query.setFirstResult((param.getPage() - 1) * param.getLimit());
         query.setMaxResults(param.getLimit());
-
         List<ChargePlace> chargePlaces = query.getResultList();
-        long total = getTotalCount(builder, criteriaQuery);
 
-        Pageable pageable = PageRequest.of(param.getPage(), param.getLimit());
+        long total = getTotalCount(builder, param);
 
-        return new PageImpl<>(chargePlaces, pageable, chargePlaces.size());
+        Pageable pageable = PageRequest.of(param.getPage() - 1, param.getLimit());
+
+        return new PageImpl<>(chargePlaces, pageable, total);
     }
 
-    private List<Order> retrieveOrders(ListParam param, CriteriaBuilder builder, Root<ChargePlace> chargePlace) {
+    private Predicate paramToPredicate(CriteriaBuilder builder, Root<ChargePlace> root, ListParam param) {
+        List<Predicate> conditions = new ArrayList<>();
+        for (SearchCondition search : param.getSearchConditions()) {
+            if ("placeName".equals(search.getSearchKey())) {
+                conditions.add(builder.like(root.get(search.getSearchKey()), "%"+search.getSearchValue()+"%"));
+            } else if ("placeId".equals(search.getSearchKey())) {
+                conditions.add(builder.equal(root.get("placeId"), search.getSearchValue()));
+            }
+        }
+
+        return builder.and(conditions.toArray(new Predicate[conditions.size()]));
+    }
+
+    private Order[] paramToOrders(CriteriaBuilder builder, Root<ChargePlace> chargePlaceRoot, ListParam param) {
         List<Order> orders = new ArrayList<>();
         for (SortCondition sortCondition : param.getSortConditions()) {
             if (!StringUtils.isEmpty(sortCondition.getSortKey()) && !StringUtils.isEmpty(sortCondition.getSortDirection().value())) {
                 if ("ASC".equalsIgnoreCase(sortCondition.getSortDirection().value())) {
-                    orders.add(builder.asc(chargePlace.get(sortCondition.getSortKey())));
+                    orders.add(builder.asc(chargePlaceRoot.get(sortCondition.getSortKey())));
                 } else if ("DESC".equalsIgnoreCase(sortCondition.getSortDirection().value())) {
-                    orders.add(builder.desc(chargePlace.get(sortCondition.getSortKey())));
+                    orders.add(builder.desc(chargePlaceRoot.get(sortCondition.getSortKey())));
                 }
             }
         }
 
-        return orders;
+        return orders.toArray(new Order[orders.size()]);
     }
 
-    private long getTotalCount(CriteriaBuilder builder, CriteriaQuery<ChargePlace> criteriaQuery) {
+    private long getTotalCount(CriteriaBuilder builder, ListParam param) {
         CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
-        Root<ChargePlace> chargePlaceRoot = countQuery.from(ChargePlace.class);
-        countQuery.select(builder.count(chargePlaceRoot));
-        countQuery.where(criteriaQuery.getRestriction());
+        Root<ChargePlace> countRoot = countQuery.from(ChargePlace.class);
+        countQuery.select(builder.count(countRoot));
+
+        Predicate predicate = paramToPredicate(builder, countRoot, param);
+        countQuery.where(predicate);
+
         return entityManager.createQuery(countQuery).getSingleResult();
     }
 
