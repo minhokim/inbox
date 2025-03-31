@@ -186,6 +186,15 @@ public class ListTest {
         System.out.println(collect);
     }
 
+    @Test
+    public void listToArray() {
+        List<Pay> pays = getDayList();
+
+        Pay[] array = pays.toArray(new Pay[pays.size()]);
+
+        System.out.println(array.length);
+    }
+
     private static List<Pay> getList() {
         List<Pay> list = new ArrayList<>();
         list.add(new Pay(null, 100));

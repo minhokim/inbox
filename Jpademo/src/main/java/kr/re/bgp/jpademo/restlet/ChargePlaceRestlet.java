@@ -4,6 +4,7 @@ import kr.re.bgp.jpademo.config.ApiError;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceUpdateDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
+import kr.re.bgp.jpademo.dto.param.ListParam;
 import kr.re.bgp.jpademo.service.ChargePlaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class ChargePlaceRestlet {
     private final ChargePlaceService service;
 
     @PostMapping(LIST_PATH)
-    public ResponseEntity<Object> list() {
-        return ResponseEntity.ok(Map.of("items", service.list()));
+    public ResponseEntity<Object> list(@RequestBody ListParam param) {
+        return ResponseEntity.ok(Map.of("items", service.listByCriteria(param)));
     }
 
     @PostMapping(CREATE_PATH)
