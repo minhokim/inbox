@@ -1,6 +1,8 @@
 package kr.re.bgp.jpademo.service;
 
+import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceRequestDto;
+import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
 import kr.re.bgp.jpademo.entity.ChargePlace;
 import kr.re.bgp.jpademo.repository.ChargePlaceRepository;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -17,20 +20,35 @@ public class ChargePlaceService {
     private final ModelMapper modelMapper;
     private final ChargePlaceRepository repository;
 
-    public ChargePlace create(ChargePlaceRequestDto requestDto) {
-        ChargePlace chargePlaceEntity = modelMapper.map(requestDto, ChargePlace.class);
-
-        return repository.save(chargePlaceEntity);
+    public ChargePlaceResponseDto create(ChargePlaceCreateDto dto) {
+        return retrieveResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
     }
 
-    public ChargePlace update(ChargePlace chargePlace) {
-        return repository.save(chargePlace);
+    public ChargePlaceResponseDto update(ChargePlaceRequestDto dto) {
+        ChargePlace chargePlace = repository.save(convertObjectToClass(dto, ChargePlace.class));
+        return retrieveResponseDto(chargePlace);
+    }
+
+    private ChargePlaceResponseDto retrieveResponseDto(ChargePlace chargePlace) {
+        return convertObjectToClass(chargePlace, ChargePlaceResponseDto.class);
+    }
+
+    private <D> D convertObjectToClass(Object source, Class<D> destinationClass) {
+        return modelMapper.map(source, destinationClass);
     }
 
     public ChargePlace retrieve(Long id) {
-        ChargePlace chargePlace = repository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
+    }
 
-        return chargePlace;
+    public ChargePlaceResponseDto retrieveResponseDto(Long id) {
+        Optional<ChargePlace> chargePlace = repository.findById(id);
+        return chargePlace.map(this::retrieveResponseDto).orElse(null);
+    }
+
+    public Long delete(Long id) {
+        repository.deleteById(id);
+        return id;
     }
 
     public List<ChargePlace> list() {
@@ -41,8 +59,8 @@ public class ChargePlaceService {
         return repository.findByPlaceName(placeName);
     }
 
-    public List<ChargePlace> findByPlaceNameContaining(String placeName) {
-        return repository.findByPlaceNameContaining(placeName);
+    public List<ChargePlace> findByPlaceNameContainingOrderByPlaceName(String placeName) {
+        return repository.findByPlaceNameContainingOrderByPlaceName(placeName);
     }
 
 

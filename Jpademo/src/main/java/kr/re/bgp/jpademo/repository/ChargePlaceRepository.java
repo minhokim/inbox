@@ -11,5 +11,5 @@ public interface ChargePlaceRepository extends JpaRepository<ChargePlace, Long> 
 
     List<ChargePlace> findByPlaceName(String placeName);
 
-    List<ChargePlace> findByPlaceNameContaining(String placeName);
+    List<ChargePlace> findByPlaceNameContainingOrderByPlaceName(String placeName);
 }
