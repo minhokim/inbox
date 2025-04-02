@@ -5,6 +5,8 @@ import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceUpdateDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
 import kr.re.bgp.jpademo.dto.param.ListParam;
+import kr.re.bgp.jpademo.entity.ChargePlace;
+import kr.re.bgp.jpademo.service.ChargePlaceBaseService;
 import kr.re.bgp.jpademo.service.ChargePlaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +19,20 @@ import java.util.Map;
 @AllArgsConstructor
 @RequestMapping("/api/ChargePlace")
 public class ChargePlaceRestlet {
+    private static final String BASE_LIST_PATH = "/BaseList";
     private static final String LIST_PATH = "/List";
     private static final String CREATE_PATH = "/Create";
     private static final String UPDATE_PATH = "/Update";
     private static final String DELETE_PATH = "/Delete/{placeId}";
     private static final String RETRIEVE_PATH = "/Retrieve/{placeId}";
+
     private final ChargePlaceService service;
+    private final ChargePlaceBaseService baseService;
+
+    @PostMapping(BASE_LIST_PATH)
+    public ResponseEntity<Object> baseList(@RequestBody ListParam param) {
+        return ResponseEntity.ok(baseService.list(param, ChargePlace.class));
+    }
 
     @PostMapping(LIST_PATH)
     public ResponseEntity<Object> list(@RequestBody ListParam param) {
