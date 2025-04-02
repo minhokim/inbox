@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class ChargePlaceBaseService extends BaseEntityService<ChargePlace> {
 
     protected ChargePlaceBaseService(EntityManager entityManager) {
-        super(entityManager);
+        super(entityManager, ChargePlace.class);
     }
 }

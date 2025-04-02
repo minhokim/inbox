@@ -31,7 +31,7 @@ public class ChargePlaceRestlet {
 
     @PostMapping(BASE_LIST_PATH)
     public ResponseEntity<Object> baseList(@RequestBody ListParam param) {
-        return ResponseEntity.ok(baseService.list(param, ChargePlace.class));
+        return ResponseEntity.ok(baseService.list(param));
     }
 
     @PostMapping(LIST_PATH)

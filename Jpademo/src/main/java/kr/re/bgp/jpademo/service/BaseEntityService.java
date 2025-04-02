@@ -17,12 +17,14 @@ import java.util.List;
 
 public abstract class BaseEntityService<T> {
     private final EntityManager entityManager;
+    private final Class<T> destClazz;
 
-    protected BaseEntityService(EntityManager entityManager) {
+    protected BaseEntityService(EntityManager entityManager, Class<T> destClazz) {
         this.entityManager = entityManager;
+        this.destClazz = destClazz;
     }
 
-    public Page<T> list(ListParam param, Class<T> destClazz) {
+    public Page<T> list(ListParam param) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(destClazz);
 
