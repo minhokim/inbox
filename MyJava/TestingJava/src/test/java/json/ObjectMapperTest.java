@@ -36,6 +36,7 @@ public class ObjectMapperTest {
         }*/
     }
 
+
     @Test
     public void jsonToObject() {
         String json = "{ \"color\": \"Black\", \"type\":\"BMW\" }";
@@ -102,12 +103,12 @@ public class ObjectMapperTest {
     @Test
     public void mapToObject() {
         Map<String, Object> map = new HashMap<>();
-        map.put("Color", "white");
-        map.put("Type", "suv");
+        map.put("color", "white");
+        map.put("type", "suv");
         map.put("carTime", "20231031112349");
 
         Car car = objectMapper.convertValue(map, Car.class);
-        System.out.println("jsonToObject car : " + car.toString());
+        System.out.println("car : " + car.toString());
 
     }
 

@@ -72,14 +72,17 @@ public class ChargePlaceService {
         Order[] orderArray = paramToOrders(builder, chargePlaceRoot, param);
         criteriaQuery.orderBy(orderArray);
 
+        int pageNumber = param.getPage() - 1;
+        int pageSize = param.getLimit();
+
         TypedQuery<ChargePlace> query = entityManager.createQuery(criteriaQuery);
-        query.setFirstResult((param.getPage() - 1) * param.getLimit());
+        query.setFirstResult(pageNumber * pageSize);
         query.setMaxResults(param.getLimit());
         List<ChargePlace> chargePlaces = query.getResultList();
 
         long total = getTotalCount(builder, param);
 
-        Pageable pageable = PageRequest.of(param.getPage() - 1, param.getLimit());
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         return new PageImpl<>(chargePlaces, pageable, total);
     }
