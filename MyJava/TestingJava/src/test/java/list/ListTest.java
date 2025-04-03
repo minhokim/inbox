@@ -1,5 +1,6 @@
 package list;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.Test;
@@ -7,9 +8,15 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListTest {
+
+    @Test
+    public void asListTest() {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    }
 
     @Test
     public void removeTest2() {
@@ -94,7 +101,10 @@ public class ListTest {
     public void sortList() {
         List<Pay> list = getList();
 
-        list.sort(Comparator.comparing(Pay::getName).reversed());
+        //list.sort(Comparator.comparing(Pay::getName).reversed());
+//        list.sort( Comparator.comparing( Pay::getName, Comparator.nullsLast(Comparator.reverseOrder()) ) );
+//        list.sort( Comparator.comparing( Pay::getName, Comparator.nullsLast(Comparator.naturalOrder()) ) );
+        list.sort( Comparator.comparing( Pay::getName, Comparator.nullsFirst(Comparator.naturalOrder()) ) );
         list.forEach(l -> System.out.println(l.getName() + " : " + l.getMoney()));
     }
 
@@ -106,9 +116,7 @@ public class ListTest {
     @Test
     public void listToMapBySum() {
         List<Pay> list = getList();
-        Pay fourPay = new Pay();
-        fourPay.setName("wed");
-        fourPay.setMoney(2);
+        Pay fourPay = new Pay("wed", 2);
         list.add(fourPay);
 
         Map<String, Integer> firstMap = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), Integer::sum) );
@@ -129,34 +137,86 @@ public class ListTest {
     @Test
     public void listToMapReplace() {
         List<Pay> list = getList();
-        Pay fourPay = new Pay();
-        fourPay.setName("wed");
-        fourPay.setMoney(2);
+        Pay fourPay = new Pay("web", 2);
         list.add(fourPay);
 
         Map<String, Integer> map = list.stream().collect( Collectors.toMap(row -> row.getName(), row -> row.getMoney(), (oldValue, newValue) -> newValue) );
         assertThat(map.get("wed")).isEqualTo(2);
     }
 
+
+    @Test
+    public void sumWithObject() {
+        List<Pay> items = getDayList();
+
+        Integer sum = items.stream()
+                .map(x -> x.getMoney())
+                .collect(Collectors.summingInt(Integer::intValue));
+
+        System.out.println("sum : " + sum);
+    }
+
+    @Test
+    public void reduce() {
+        List<Pay> items = getDayList();
+
+        Integer sum = items.stream()
+                .map(item -> item.getMoney())
+                .reduce(0, Integer::sum);
+
+        System.out.println("reduce sum : " + sum);
+    }
+
+    @Test
+    public void groupingByTest() {
+        List<Pay> items = new ArrayList<>(getDayList());
+        items.sort(Comparator.comparing(Pay::getName));
+        TreeMap<String, List<Pay>> collect = items.stream()
+                .collect(groupingBy(Pay::getName, TreeMap::new, Collectors.toList()));
+
+        System.out.println(collect);
+    }
+
+    @Test
+    public void groupingCountTest() {
+        List<Pay> items = new ArrayList<>(getDayList());
+        Map<String, Long> collect = items.stream()
+                .collect(groupingBy(Pay::getName, counting()));
+
+        System.out.println(collect);
+    }
+
+    @Test
+    public void listToArray() {
+        List<Pay> pays = getDayList();
+
+        Pay[] array = pays.toArray(new Pay[pays.size()]);
+
+        System.out.println(array.length);
+    }
+
     private static List<Pay> getList() {
-        List<Pay> pays = new ArrayList<>();
-        Pay threePay = new Pay();
-        threePay.setName("wed");
-        threePay.setMoney(1);
+        List<Pay> list = new ArrayList<>();
+        list.add(new Pay(null, 100));
+        list.add(new Pay("web", 700));
+        list.add(new Pay("mon", 500));
+        list.add(new Pay("tue", 300));
 
-        Pay onePay = new Pay();
-        onePay.setName("mon");
-        onePay.setMoney(1);
+        return list;
+    }
 
-        Pay twoPay = new Pay();
-        twoPay.setName("tue");
-        twoPay.setMoney(1);
+    private static List<Pay> getDayList() {
+        List<Pay> list = new ArrayList<>();
+        list.add(new Pay("7", 1));
+        list.add(new Pay("5", 1));
+        list.add(new Pay("3", 1));
+        list.add(new Pay("1", 1));
+        list.add(new Pay("7", 1));
+        list.add(new Pay("5", 1));
+        list.add(new Pay("3", 1));
 
-        pays.add(onePay);
-        pays.add(twoPay);
-        pays.add(threePay);
 
-        return pays;
+        return list;
     }
 
     // TODO: 3/7/24  Test
@@ -165,5 +225,32 @@ public class ListTest {
     public static class Pay {
         private String name;
         private int money;
+
+        public Pay(String name, int money) {
+            this.name = name;
+            this.money = money;
+        }
+    }
+
+    @Test
+    public void emptyTest() {
+        Hq hq = new Hq();
+        hq.setHqName("HQ_A");
+
+
+    }
+
+    @Setter
+    @Getter
+    public static class Hq {
+        private String hqName;
+        private List<Team> teams;
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    public static class Team {
+        private String teamName;
     }
 }

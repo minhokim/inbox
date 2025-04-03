@@ -19,6 +19,7 @@ public class ExecutorTest {
 
         try {
             String result = future.get();
+            System.out.println(result);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {

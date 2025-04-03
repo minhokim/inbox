@@ -9,7 +9,7 @@ public class ByteTest {
 
     @Test
     public void getByte() {
-        String cardNo = "1111-2222-3333-4444";
+        String cardNo = "1111-2222-3333-44445";
         System.out.println(cardNo.getBytes().length);
     }
 }

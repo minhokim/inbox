@@ -36,6 +36,7 @@ public class ObjectMapperTest {
         }*/
     }
 
+
     @Test
     public void jsonToObject() {
         String json = "{ \"color\": \"Black\", \"type\":\"BMW\" }";
@@ -102,20 +103,25 @@ public class ObjectMapperTest {
     @Test
     public void mapToObject() {
         Map<String, Object> map = new HashMap<>();
-        map.put("Color", "white");
-        map.put("Type", "suv");
+        map.put("color", "white");
+        map.put("type", "suv");
         map.put("carTime", "20231031112349");
 
         Car car = objectMapper.convertValue(map, Car.class);
-        System.out.println("jsonToObject car : " + car.toString());
+        System.out.println("car : " + car.toString());
 
     }
 
     @Test
     public void strToTimestamp() {
-        String str = "20231031112349";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(str));
+//        String str = "20231031112349";
+        String str = "2024-12-18T14:52:59.927302+09:00".replace("T", "");
+        String newStr = str.substring(0, str.indexOf("."));
+
+        System.out.println(newStr);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(newStr));
         Timestamp timestamp = Timestamp.valueOf(localDateTime);
         System.out.println(timestamp);
     }

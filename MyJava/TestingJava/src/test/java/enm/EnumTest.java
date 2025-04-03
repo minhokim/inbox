@@ -35,5 +35,12 @@ public class EnumTest {
         }
     }
 
+    @Test
+    public void errorCode() {
+        System.out.println(ErrorCode.InternalError);
+    }
+
+
+
 
 }
