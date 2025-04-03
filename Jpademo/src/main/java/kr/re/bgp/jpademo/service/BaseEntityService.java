@@ -24,6 +24,7 @@ public abstract class BaseEntityService<T> {
         this.destClazz = destClazz;
     }
 
+
     public Page<T> list(ListParam param) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(destClazz);
