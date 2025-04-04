@@ -12,24 +12,33 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseEntityService<T> {
+public abstract class BaseService<T> {
     private final EntityManager entityManager;
-    private final Class<T> destClazz;
+    private final Class<T> entityClass;
+    private final Type superclass;
 
-    protected BaseEntityService(EntityManager entityManager, Class<T> destClazz) {
+    protected BaseService(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.destClazz = destClazz;
-    }
+        this.superclass = this.getClass().getGenericSuperclass();
 
+        if (superclass instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) superclass;
+            this.entityClass = (Class<T>) parameterizedType.getActualTypeArguments()[0];
+        } else {
+            this.entityClass = null;
+        }
+    }
 
     public Page<T> list(ListParam param) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = builder.createQuery(destClazz);
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
 
-        Root<T> root = criteriaQuery.from(destClazz);
+        Root<T> root = criteriaQuery.from(entityClass);
         criteriaQuery.select(root);
 
         Predicate predicate = paramToPredicate(builder, root, param);
@@ -46,7 +55,7 @@ public abstract class BaseEntityService<T> {
         query.setMaxResults(param.getLimit());
         List<T> resultList = query.getResultList();
 
-        long total = getTotalCount(builder, param, destClazz);
+        long total = getTotalCount(builder, param, entityClass);
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
