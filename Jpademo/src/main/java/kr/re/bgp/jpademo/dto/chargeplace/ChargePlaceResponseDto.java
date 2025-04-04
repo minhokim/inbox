@@ -2,12 +2,13 @@ package kr.re.bgp.jpademo.dto.chargeplace;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import kr.re.bgp.jpademo.dto.ResponseDto;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class ChargePlaceResponseDto {
+public class ChargePlaceResponseDto implements ResponseDto {
     private Long placeId;
     private String placeName;
     private Double latitude;

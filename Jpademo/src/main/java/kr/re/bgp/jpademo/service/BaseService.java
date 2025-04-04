@@ -3,14 +3,23 @@ package kr.re.bgp.jpademo.service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import kr.re.bgp.jpademo.dto.BaseDto;
+import kr.re.bgp.jpademo.dto.ResponseDto;
+import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
+import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
 import kr.re.bgp.jpademo.dto.param.ListParam;
 import kr.re.bgp.jpademo.dto.param.SearchCondition;
 import kr.re.bgp.jpademo.dto.param.SortCondition;
+import kr.re.bgp.jpademo.entity.ChargePlace;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -20,12 +29,11 @@ import java.util.List;
 public abstract class BaseService<T> {
     private final EntityManager entityManager;
     private final Class<T> entityClass;
-    private final Type superclass;
 
     protected BaseService(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.superclass = this.getClass().getGenericSuperclass();
 
+        Type superclass = this.getClass().getGenericSuperclass();
         if (superclass instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) superclass;
             this.entityClass = (Class<T>) parameterizedType.getActualTypeArguments()[0];
@@ -103,5 +111,13 @@ public abstract class BaseService<T> {
 
         return entityManager.createQuery(countQuery).getSingleResult();
     }
+
+    public abstract ResponseDto create(BaseDto dto);
+
+    public abstract ResponseDto update(BaseDto dto);
+
+    public abstract ResponseDto retrieve(Long id);
+
+    public abstract ResponseDto retrieve(String id);
 
 }
