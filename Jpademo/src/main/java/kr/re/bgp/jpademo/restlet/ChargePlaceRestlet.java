@@ -32,12 +32,12 @@ public class ChargePlaceRestlet {
 
     @PostMapping(CREATE_PATH)
     public ResponseEntity<Object> create(@RequestBody ChargePlaceCreateDto dto) {
-        return ResponseEntity.ok(Map.of("item", service.create(dto)));
+        return ResponseEntity.ok(Map.of("content", service.create(dto)));
     }
 
     @PutMapping(UPDATE_PATH)
     public ResponseEntity<Object> update(@RequestBody ChargePlaceUpdateDto dto) {
-        return ResponseEntity.ok(Map.of("item", service.update(dto)));
+        return ResponseEntity.ok(Map.of("content", service.update(dto)));
     }
 
     @GetMapping(RETRIEVE_PATH)
@@ -49,7 +49,7 @@ public class ChargePlaceRestlet {
                     .body(new ApiError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()));
         }
 
-        return ResponseEntity.ok(Map.of("item", dto));
+        return ResponseEntity.ok(Map.of("content", dto));
     }
 
     @DeleteMapping(DELETE_PATH)

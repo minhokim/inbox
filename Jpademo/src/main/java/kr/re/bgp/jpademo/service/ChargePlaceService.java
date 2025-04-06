@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChargePlaceService extends BaseService<ChargePlace> {
@@ -26,18 +27,18 @@ public class ChargePlaceService extends BaseService<ChargePlace> {
 
     @Override
     public ResponseDto create(BaseDto dto) {
-        return getChargePlaceResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
+        return getResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
     }
 
     @Override
     public ResponseDto update(BaseDto dto) {
-        return getChargePlaceResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
+        return getResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
     }
 
     @Override
     public ResponseDto retrieve(Long id) {
         return repository.findById(id)
-                .map(this::getChargePlaceResponseDto)
+                .map(this::getResponseDto)
                 .orElse(null);
     }
 
@@ -46,11 +47,15 @@ public class ChargePlaceService extends BaseService<ChargePlace> {
         return null;
     }
 
+    public Optional<ChargePlace> retrieveChargePlace(Long id) {
+        return repository.findById(id);
+    }
+
     public void delete(Long placeId) {
         repository.deleteById(placeId);
     }
 
-    private ChargePlaceResponseDto getChargePlaceResponseDto(ChargePlace chargePlace) {
+    private ChargePlaceResponseDto getResponseDto(ChargePlace chargePlace) {
         return convertObjectToClass(chargePlace, ChargePlaceResponseDto.class);
     }
 

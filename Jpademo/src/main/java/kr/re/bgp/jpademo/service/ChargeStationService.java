@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -17,7 +18,7 @@ public class ChargeStationService {
     private final ChargeStationRepository chargeStationrepository;
 
     public ChargeStation create(ChargeStation chargeStation) {
-        ChargePlace chargePlace = chargePlaceService.retrieveChargePlace(chargeStation.getPlaceId());
+        ChargePlace chargePlace = chargePlaceService.retrieveChargePlace(chargeStation.getPlaceId()).orElse(null);
         chargeStation.setPlace(chargePlace);
         return chargeStationrepository.save(chargeStation);
     }
