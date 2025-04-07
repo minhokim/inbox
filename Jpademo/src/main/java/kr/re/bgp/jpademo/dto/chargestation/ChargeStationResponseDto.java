@@ -1,13 +1,14 @@
-package kr.re.bgp.jpademo.dto;
+package kr.re.bgp.jpademo.dto.chargestation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import kr.re.bgp.jpademo.dto.ResponseDto;
 import kr.re.bgp.jpademo.entity.ChargePlace;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class ChargeStationDto {
+public class ChargeStationResponseDto implements ResponseDto {
     private Long stationId;
     private String stationName;
     private String chargeBoxId;

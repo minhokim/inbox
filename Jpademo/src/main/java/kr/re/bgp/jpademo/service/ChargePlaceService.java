@@ -36,14 +36,6 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
         return convertToDto(repository.save(convertToEntity(dto)));
     }
 
-    private ChargePlace convertToEntity(BaseDto dto) {
-        return mapsObjToClass(dto, ChargePlace.class);
-    }
-
-    private ResponseDto convertToDto(ChargePlace chargePlace) {
-        return mapsObjToClass(chargePlace, ChargePlaceResponseDto.class);
-    }
-
     @Override
     public ResponseDto retrieve(Long id) {
         return convertToDto(repository.findById(id).orElse(new ChargePlace()));
@@ -52,6 +44,14 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
     @Override
     public ResponseDto retrieve(String id) {
         return null;
+    }
+
+    private ChargePlace convertToEntity(BaseDto dto) {
+        return mapsObjToClass(dto, ChargePlace.class);
+    }
+
+    private ResponseDto convertToDto(ChargePlace chargePlace) {
+        return mapsObjToClass(chargePlace, ChargePlaceResponseDto.class);
     }
 
     public Optional<ChargePlace> retrieveChargePlace(Long id) {

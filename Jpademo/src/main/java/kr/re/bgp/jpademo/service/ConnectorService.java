@@ -40,7 +40,7 @@ public class ConnectorService {
     }
 
     private ChargeStation retrieveStation(ConnectorDto dto) {
-        return stationService.retrieve(dto.getStationId());
+        return stationService.retrieveEntity(dto.getStationId());
     }
 
     public Connector update(Connector connector) {

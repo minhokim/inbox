@@ -61,6 +61,7 @@ public abstract class BaseService<T, R extends ResponseDto> {
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
         query.setFirstResult(pageNumber * pageSize);
         query.setMaxResults(param.getLimit());
+
         List<T> resultList = query.getResultList();
         List<R> responseDtoList = resultList.stream()
                 .map(entity -> mapsObjToClass(entity, responseDtoClass))
