@@ -43,6 +43,11 @@ public abstract class BaseService<T, R extends ResponseDto> {
         }
     }
 
+    /**
+     * ResponseDto 목록을 리턴 - API 제공을 위한
+     * @param param
+     * @return
+     */
     public Page<R> list(ListParam param) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
@@ -74,6 +79,11 @@ public abstract class BaseService<T, R extends ResponseDto> {
         return new PageImpl<>(responseDtoList, pageable, total);
     }
 
+    /**
+     * ENTITY 목록을 리턴 - 내부에서 사용하기 위한
+     * @param param
+     * @return
+     */
     public Page<T> findAll(ListParam param) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
