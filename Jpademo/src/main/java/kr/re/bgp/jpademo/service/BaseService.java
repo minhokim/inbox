@@ -8,6 +8,7 @@ import kr.re.bgp.jpademo.dto.ResponseDto;
 import kr.re.bgp.jpademo.dto.param.ListParam;
 import kr.re.bgp.jpademo.dto.param.SearchCondition;
 import kr.re.bgp.jpademo.dto.param.SortCondition;
+import kr.re.bgp.jpademo.dto.param.SortDirectionEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -67,12 +68,63 @@ public abstract class BaseService<T, R extends ResponseDto> {
                 .map(entity -> mapsObjToClass(entity, responseDtoClass))
                 .collect(Collectors.toList());
 
-
         long total = getTotalCount(builder, param, entityClass);
-
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         return new PageImpl<>(responseDtoList, pageable, total);
+    }
+
+    public Page<T> findAll(ListParam param) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
+
+        Root<T> root = criteriaQuery.from(entityClass);
+        criteriaQuery.select(root);
+
+        Predicate predicate = paramToPredicate(builder, root, param);
+        criteriaQuery.where(predicate);
+
+        Order[] orderArray = paramToOrders(builder, root, param);
+        criteriaQuery.orderBy(orderArray);
+
+        int pageNumber = param.getPage() - 1;
+        int pageSize = param.getLimit();
+
+        TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
+        query.setFirstResult(pageNumber * pageSize);
+        query.setMaxResults(param.getLimit());
+
+        List<T> resultList = query.getResultList();
+
+        long total = getTotalCount(builder, param, entityClass);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return new PageImpl<>(resultList, pageable, total);
+    }
+
+    public T findTop(String sortKey, String direction) {
+        List<SortCondition> sorts = new ArrayList<>();
+        sorts.add(SortCondition.builder()
+                .sortKey(sortKey)
+                .sortDirection(SortDirectionEnum.valueOf(StringUtils.toRootUpperCase(direction)))
+                .build()
+        );
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
+
+        Root<T> root = criteriaQuery.from(entityClass);
+        criteriaQuery.select(root);
+
+        Order[] orderArray = sortToOrders(builder, root, sorts);
+        criteriaQuery.orderBy(orderArray);
+
+        TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
+        query.setFirstResult(0).setMaxResults(1);
+
+        List<T> resultList = query.getResultList();
+
+        return resultList.isEmpty() ? null : resultList.get(0);
     }
 
     private Predicate paramToPredicate(CriteriaBuilder builder, Root<T> root, ListParam param) {
@@ -93,12 +145,27 @@ public abstract class BaseService<T, R extends ResponseDto> {
 
     private Order[] paramToOrders(CriteriaBuilder builder, Root<T> root, ListParam param) {
         List<Order> orders = new ArrayList<>();
-        for (SortCondition sortCondition : param.getSortConditions()) {
-            if (!StringUtils.isEmpty(sortCondition.getSortKey()) && !StringUtils.isEmpty(sortCondition.getSortDirection().value())) {
-                if ("ASC".equalsIgnoreCase(sortCondition.getSortDirection().value())) {
-                    orders.add(builder.asc(root.get(sortCondition.getSortKey())));
-                } else if ("DESC".equalsIgnoreCase(sortCondition.getSortDirection().value())) {
-                    orders.add(builder.desc(root.get(sortCondition.getSortKey())));
+        for (SortCondition sort : param.getSortConditions()) {
+            if (!StringUtils.isEmpty(sort.getSortKey()) && !StringUtils.isEmpty(sort.getSortDirection().value())) {
+                if ("ASC".equalsIgnoreCase(sort.getSortDirection().value())) {
+                    orders.add(builder.asc(root.get(sort.getSortKey())));
+                } else if ("DESC".equalsIgnoreCase(sort.getSortDirection().value())) {
+                    orders.add(builder.desc(root.get(sort.getSortKey())));
+                }
+            }
+        }
+
+        return orders.toArray(new Order[orders.size()]);
+    }
+
+    private Order[] sortToOrders(CriteriaBuilder builder, Root<T> root, List<SortCondition> sorts) {
+        List<Order> orders = new ArrayList<>();
+        for (SortCondition sort : sorts) {
+            if (!StringUtils.isEmpty(sort.getSortKey()) && !StringUtils.isEmpty(sort.getSortDirection().value())) {
+                if ("ASC".equalsIgnoreCase(sort.getSortDirection().value())) {
+                    orders.add(builder.asc(root.get(sort.getSortKey())));
+                } else if ("DESC".equalsIgnoreCase(sort.getSortDirection().value())) {
+                    orders.add(builder.desc(root.get(sort.getSortKey())));
                 }
             }
         }

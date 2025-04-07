@@ -31,4 +31,9 @@ public class ListParam {
         this.searchConditions = v;
         return this;
     }
+
+    public ListParam withSortConditions(List<SortCondition> v) {
+        this.sortConditions = v;
+        return this;
+    }
 }

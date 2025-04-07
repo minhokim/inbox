@@ -3,7 +3,6 @@ package kr.re.bgp.jpademo.service;
 import jakarta.persistence.EntityManager;
 import kr.re.bgp.jpademo.dto.BaseDto;
 import kr.re.bgp.jpademo.dto.ResponseDto;
-import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
 import kr.re.bgp.jpademo.dto.chargestation.ChargeStationCreateDto;
 import kr.re.bgp.jpademo.dto.chargestation.ChargeStationResponseDto;
 import kr.re.bgp.jpademo.entity.ChargePlace;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class ChargeStationService extends BaseService<ChargeStation, ChargeStationResponseDto>{
+public class ChargeStationService extends BaseService<ChargeStation, ChargeStationResponseDto> {
     private final ChargePlaceService chargePlaceService;
     private final ChargeStationRepository repository;
 

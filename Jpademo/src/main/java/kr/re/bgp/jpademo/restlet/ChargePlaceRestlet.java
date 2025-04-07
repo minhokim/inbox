@@ -17,6 +17,8 @@ import java.util.Map;
 @AllArgsConstructor
 @RequestMapping("/api/ChargePlace")
 public class ChargePlaceRestlet {
+    private static final String FIND_TOP_PATH = "/FindTop";
+    private static final String FIND_ALL_PATH = "/FindAll";
     private static final String LIST_PATH = "/List";
     private static final String CREATE_PATH = "/Create";
     private static final String UPDATE_PATH = "/Update";
@@ -24,6 +26,16 @@ public class ChargePlaceRestlet {
     private static final String RETRIEVE_PATH = "/Retrieve/{placeId}";
 
     private final ChargePlaceService service;
+
+    @GetMapping(FIND_TOP_PATH)
+    public ResponseEntity<Object> findTop(String sortKey, String direction) {
+        return ResponseEntity.ok(Map.of("content", service.findTop(sortKey, direction)));
+    }
+
+    @PostMapping(FIND_ALL_PATH)
+    public ResponseEntity<Object> findAll() {
+        return ResponseEntity.ok(service.findByConditions());
+    }
 
     @PostMapping(LIST_PATH)
     public ResponseEntity<Object> list(@RequestBody ListParam param) {
