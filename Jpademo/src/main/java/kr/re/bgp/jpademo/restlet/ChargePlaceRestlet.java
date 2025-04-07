@@ -40,6 +40,11 @@ public class ChargePlaceRestlet {
         return ResponseEntity.ok(Map.of("content", service.update(dto)));
     }
 
+    @PatchMapping(UPDATE_PATH)
+    public ResponseEntity<Object> patch(@RequestBody ChargePlaceUpdateDto dto) {
+        return ResponseEntity.ok(Map.of("content", service.update(dto)));
+    }
+
     @GetMapping(RETRIEVE_PATH)
     public ResponseEntity<Object> retrieve(@PathVariable(name = "placeId") Long placeId) {
         ChargePlaceResponseDto dto = (ChargePlaceResponseDto) service.retrieve(placeId);

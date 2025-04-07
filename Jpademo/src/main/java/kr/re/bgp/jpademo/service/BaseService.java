@@ -5,44 +5,44 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import kr.re.bgp.jpademo.dto.BaseDto;
 import kr.re.bgp.jpademo.dto.ResponseDto;
-import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
-import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
 import kr.re.bgp.jpademo.dto.param.ListParam;
 import kr.re.bgp.jpademo.dto.param.SearchCondition;
 import kr.re.bgp.jpademo.dto.param.SortCondition;
-import kr.re.bgp.jpademo.entity.ChargePlace;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class BaseService<T> {
+public abstract class BaseService<T, R extends ResponseDto> {
     private final EntityManager entityManager;
+    private final ModelMapper modelMapper;
     private final Class<T> entityClass;
+    private final Class<R> responseDtoClass;
 
-    protected BaseService(EntityManager entityManager) {
+    protected BaseService(EntityManager entityManager, ModelMapper modelMapper) {
         this.entityManager = entityManager;
+        this.modelMapper = modelMapper;
 
         Type superclass = this.getClass().getGenericSuperclass();
         if (superclass instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) superclass;
             this.entityClass = (Class<T>) parameterizedType.getActualTypeArguments()[0];
+            this.responseDtoClass = (Class<R>) parameterizedType.getActualTypeArguments()[1];
         } else {
             this.entityClass = null;
+            this.responseDtoClass = null;
         }
     }
 
-    public Page<T> list(ListParam param) {
+    public Page<R> list(ListParam param) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
 
@@ -62,12 +62,16 @@ public abstract class BaseService<T> {
         query.setFirstResult(pageNumber * pageSize);
         query.setMaxResults(param.getLimit());
         List<T> resultList = query.getResultList();
+        List<R> responseDtoList = resultList.stream()
+                .map(entity -> mapsObjToClass(entity, responseDtoClass))
+                .collect(Collectors.toList());
+
 
         long total = getTotalCount(builder, param, entityClass);
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        return new PageImpl<>(resultList, pageable, total);
+        return new PageImpl<>(responseDtoList, pageable, total);
     }
 
     private Predicate paramToPredicate(CriteriaBuilder builder, Root<T> root, ListParam param) {
@@ -110,6 +114,11 @@ public abstract class BaseService<T> {
         countQuery.where(predicate);
 
         return entityManager.createQuery(countQuery).getSingleResult();
+    }
+
+
+    protected <D> D mapsObjToClass(Object source, Class<D> destinationClass) {
+        return modelMapper.map(source, destinationClass);
     }
 
     public abstract ResponseDto create(BaseDto dto);

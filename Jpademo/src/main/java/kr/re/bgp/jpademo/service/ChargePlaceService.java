@@ -4,42 +4,49 @@ import jakarta.persistence.EntityManager;
 import kr.re.bgp.jpademo.dto.BaseDto;
 import kr.re.bgp.jpademo.dto.ResponseDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceResponseDto;
+import kr.re.bgp.jpademo.dto.param.ListParam;
 import kr.re.bgp.jpademo.entity.ChargePlace;
 import kr.re.bgp.jpademo.repository.ChargePlaceRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class ChargePlaceService extends BaseService<ChargePlace> {
-    private final ModelMapper modelMapper;
+public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResponseDto> {
     private final ChargePlaceRepository repository;
-
     protected ChargePlaceService(EntityManager entityManager,
                                  ModelMapper modelMapper,
                                  ChargePlaceRepository repository) {
-        super(entityManager);
-        this.modelMapper = modelMapper;
+        super(entityManager, modelMapper);
         this.repository = repository;
     }
 
     @Override
     public ResponseDto create(BaseDto dto) {
-        return getResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
+        return convertToDto(repository.save(convertToEntity(dto)));
     }
 
     @Override
     public ResponseDto update(BaseDto dto) {
-        return getResponseDto(repository.save(convertObjectToClass(dto, ChargePlace.class)));
+        return convertToDto(repository.save(convertToEntity(dto)));
+    }
+
+    private ChargePlace convertToEntity(BaseDto dto) {
+        return mapsObjToClass(dto, ChargePlace.class);
+    }
+
+    private ResponseDto convertToDto(ChargePlace chargePlace) {
+        return mapsObjToClass(chargePlace, ChargePlaceResponseDto.class);
     }
 
     @Override
     public ResponseDto retrieve(Long id) {
-        return repository.findById(id)
-                .map(this::getResponseDto)
-                .orElse(null);
+        return convertToDto(repository.findById(id).orElse(new ChargePlace()));
     }
 
     @Override
@@ -54,15 +61,6 @@ public class ChargePlaceService extends BaseService<ChargePlace> {
     public void delete(Long placeId) {
         repository.deleteById(placeId);
     }
-
-    private ChargePlaceResponseDto getResponseDto(ChargePlace chargePlace) {
-        return convertObjectToClass(chargePlace, ChargePlaceResponseDto.class);
-    }
-
-    private <D> D convertObjectToClass(Object source, Class<D> destinationClass) {
-        return modelMapper.map(source, destinationClass);
-    }
-
 
     public List<ChargePlace> findByPlaceName(String placeName) {
         return repository.findByPlaceName(placeName);
