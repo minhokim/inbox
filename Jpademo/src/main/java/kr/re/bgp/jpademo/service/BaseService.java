@@ -18,7 +18,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,20 +115,13 @@ public abstract class BaseService<T, R extends ResponseDto> {
     }
 
     public T findTop(String sortKey, String direction) {
-        List<SortCondition> sorts = new ArrayList<>();
-        sorts.add(SortCondition.builder()
-                .sortKey(sortKey)
-                .sortDirection(SortDirectionEnum.valueOf(StringUtils.toRootUpperCase(direction)))
-                .build()
-        );
-
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
 
         Root<T> root = criteriaQuery.from(entityClass);
         criteriaQuery.select(root);
 
-        Order[] orderArray = sortToOrders(builder, root, sorts);
+        Order[] orderArray = sortToOrders(builder, root, retrieveSort(sortKey, direction));
         criteriaQuery.orderBy(orderArray);
 
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
@@ -137,14 +132,37 @@ public abstract class BaseService<T, R extends ResponseDto> {
         return resultList.isEmpty() ? null : resultList.get(0);
     }
 
+    private List<SortCondition> retrieveSort(String sortKey, String direction) {
+        List<SortCondition> sorts = new ArrayList<>();
+        sorts.add(SortCondition.builder()
+                .sortKey(sortKey)
+                .sortDirection(SortDirectionEnum.valueOf(StringUtils.toRootUpperCase(direction)))
+                .build()
+        );
+
+        return sorts;
+    }
+
     private Predicate paramToPredicate(CriteriaBuilder builder, Root<T> root, ListParam param) {
+        String[] likeKeys = {"NAME"};
+        String[] periodKeys = {"STARTDATE", "ENDDATE"};
+
         List<Predicate> conditions = new ArrayList<>();
         for (SearchCondition search : param.getSearchConditions()) {
             if (StringUtils.isEmpty(search.getSearchKey())) {
                 continue;
             }
-            if ((StringUtils.toRootUpperCase(search.getSearchKey())).contains("NAME")) {
-                conditions.add(builder.like(root.get(search.getSearchKey()), "%"+search.getSearchValue()+"%"));
+
+            if (isContains(search, likeKeys)) {
+                conditions.add(builder.like(root.get(search.getSearchKey()), "%" + search.getSearchValue() + "%"));
+            } else if (isContains(search, periodKeys)) {
+                if (isContains(search, "STARTDATE")) {
+                    conditions.add(builder.greaterThanOrEqualTo(root.get("created"),
+                            Timestamp.valueOf(search.getSearchValue() + " 00:00:00")));
+                } else if (isContains(search, "ENDDATE")) {
+                    conditions.add(builder.lessThanOrEqualTo(root.get("created"),
+                            Timestamp.valueOf(search.getSearchValue() + " 23:59:59")));
+                }
             } else {
                 conditions.add(builder.equal(root.get(search.getSearchKey()), search.getSearchValue()));
             }
@@ -153,13 +171,18 @@ public abstract class BaseService<T, R extends ResponseDto> {
         return builder.and(conditions.toArray(new Predicate[conditions.size()]));
     }
 
+    private boolean isContains(SearchCondition search, String... searchKey) {
+        return Arrays.stream(searchKey)
+                .anyMatch(l -> StringUtils.toRootUpperCase(search.getSearchKey()).contains(l));
+    }
+
     private Order[] paramToOrders(CriteriaBuilder builder, Root<T> root, ListParam param) {
         List<Order> orders = new ArrayList<>();
         for (SortCondition sort : param.getSortConditions()) {
-            if (!StringUtils.isEmpty(sort.getSortKey()) && !StringUtils.isEmpty(sort.getSortDirection().value())) {
-                if ("ASC".equalsIgnoreCase(sort.getSortDirection().value())) {
+            if (isValidSortCondition(sort)) {
+                if (isAsc(sort)) {
                     orders.add(builder.asc(root.get(sort.getSortKey())));
-                } else if ("DESC".equalsIgnoreCase(sort.getSortDirection().value())) {
+                } else if (isDesc(sort)) {
                     orders.add(builder.desc(root.get(sort.getSortKey())));
                 }
             }
@@ -171,16 +194,28 @@ public abstract class BaseService<T, R extends ResponseDto> {
     private Order[] sortToOrders(CriteriaBuilder builder, Root<T> root, List<SortCondition> sorts) {
         List<Order> orders = new ArrayList<>();
         for (SortCondition sort : sorts) {
-            if (!StringUtils.isEmpty(sort.getSortKey()) && !StringUtils.isEmpty(sort.getSortDirection().value())) {
-                if ("ASC".equalsIgnoreCase(sort.getSortDirection().value())) {
+            if (isValidSortCondition(sort)) {
+                if (isAsc(sort)) {
                     orders.add(builder.asc(root.get(sort.getSortKey())));
-                } else if ("DESC".equalsIgnoreCase(sort.getSortDirection().value())) {
+                } else if (isDesc(sort)) {
                     orders.add(builder.desc(root.get(sort.getSortKey())));
                 }
             }
         }
 
         return orders.toArray(new Order[orders.size()]);
+    }
+
+    private boolean isValidSortCondition(SortCondition sort) {
+        return !StringUtils.isEmpty(sort.getSortKey()) && !StringUtils.isEmpty(sort.getSortDirection().value());
+    }
+
+    private boolean isAsc(SortCondition sort) {
+        return "ASC".equalsIgnoreCase(sort.getSortDirection().value());
+    }
+
+    private boolean isDesc(SortCondition sort) {
+        return "DESC".equalsIgnoreCase(sort.getSortDirection().value());
     }
 
     private long getTotalCount(CriteriaBuilder builder, ListParam param, Class<T> destClazz) {
@@ -193,7 +228,6 @@ public abstract class BaseService<T, R extends ResponseDto> {
 
         return entityManager.createQuery(countQuery).getSingleResult();
     }
-
 
     protected <D> D mapsObjToClass(Object source, Class<D> destinationClass) {
         return modelMapper.map(source, destinationClass);
