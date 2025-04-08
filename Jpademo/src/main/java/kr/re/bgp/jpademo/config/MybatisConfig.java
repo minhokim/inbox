@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
-@MapperScan(basePackages = "net.ion.smartcharging.mapper")
+@MapperScan(basePackages = "kr.re.bgp.jpademo.mapper")
 public class MybatisConfig {
     @Value("${spring.datasource.url}")
     private String url;
