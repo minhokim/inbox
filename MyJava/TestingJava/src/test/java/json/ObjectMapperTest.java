@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,19 +22,23 @@ public class ObjectMapperTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Test
     public void objectToJson() {
-       /* Car car = new Car("yellow", "renault");
+        /*Car car = new Car("yellow", "renault");
         try {
             objectMapper.writeValue(new File("target/car.json"), car);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
+
+        List<Car> cars = new ArrayList<>();
+        cars.add(new Car("yellow", "Renault"));
+        cars.add(new Car("black", "BMW"));
 
         try {
-            String carAsString = objectMapper.writeValueAsString(car);
+            String carAsString = objectMapper.writeValueAsString(cars);
             System.out.println("objectToJson carAsString : " + carAsString);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
 
 

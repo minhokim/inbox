@@ -73,4 +73,10 @@ public class SubstringTest {
         System.out.println(day);
     }
 
+    @Test
+    public void substringComma() {
+        String str = "2025-03-28 12:12:12.992";
+        System.out.println(str.substring(0, str.indexOf(".")));
+    }
+
 }

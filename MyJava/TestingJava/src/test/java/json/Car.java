@@ -12,5 +12,5 @@ import java.sql.Timestamp;
 public class Car {
     private String color;
     private String type;
-    private Timestamp carTime;
+//    private Timestamp carTime;
 }
