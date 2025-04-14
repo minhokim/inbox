@@ -20,6 +20,7 @@ public class ChargePlaceRestlet {
     private static final String FIND_TOP_PATH = "/FindTop";
     private static final String FIND_ALL_PATH = "/FindAll";
     private static final String LIST_PATH = "/List";
+    private static final String LIST_MYBATIS_PATH = "/ListFromMyBatis";
     private static final String CREATE_PATH = "/Create";
     private static final String UPDATE_PATH = "/Update";
     private static final String DELETE_PATH = "/Delete/{placeId}";
@@ -40,6 +41,11 @@ public class ChargePlaceRestlet {
     @PostMapping(LIST_PATH)
     public ResponseEntity<Object> list(@RequestBody ListParam param) {
         return ResponseEntity.ok(service.list(param));
+    }
+
+    @PostMapping(LIST_MYBATIS_PATH)
+    public ResponseEntity<Object> listMyBatis(@RequestBody ListParam param) {
+        return ResponseEntity.ok(service.listMyBatis(param));
     }
 
     @PostMapping(CREATE_PATH)

@@ -64,11 +64,11 @@ public abstract class BaseService<T, R extends ResponseDto> {
         criteriaQuery.orderBy(orderArray);
 
         int pageNumber = param.getPage() - 1;
-        int pageSize = param.getLimit();
+        int pageSize = param.getSize();
 
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
         query.setFirstResult(pageNumber * pageSize);
-        query.setMaxResults(param.getLimit());
+        query.setMaxResults(param.getSize());
 
         List<T> resultList = query.getResultList();
         List<R> responseDtoList = resultList.stream()
@@ -99,12 +99,12 @@ public abstract class BaseService<T, R extends ResponseDto> {
         Order[] orderArray = paramToOrders(builder, root, param);
         criteriaQuery.orderBy(orderArray);
 
-        int pageNumber = param.getPage() - 1;
-        int pageSize = param.getLimit();
+        int pageNumber = param.getSize() - 1;
+        int pageSize = param.getPage();
 
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
         query.setFirstResult(pageNumber * pageSize);
-        query.setMaxResults(param.getLimit());
+        query.setMaxResults(param.getPage());
 
         List<T> resultList = query.getResultList();
 
@@ -135,7 +135,7 @@ public abstract class BaseService<T, R extends ResponseDto> {
     private List<SortCondition> retrieveSort(String sortKey, String direction) {
         List<SortCondition> sorts = new ArrayList<>();
         sorts.add(SortCondition.builder()
-                .sortKey(sortKey)
+                .sortProperty(sortKey)
                 .sortDirection(SortDirectionEnum.valueOf(StringUtils.toRootUpperCase(direction)))
                 .build()
         );
@@ -179,11 +179,11 @@ public abstract class BaseService<T, R extends ResponseDto> {
     private Order[] paramToOrders(CriteriaBuilder builder, Root<T> root, ListParam param) {
         List<Order> orders = new ArrayList<>();
         for (SortCondition sort : param.getSortConditions()) {
-            if (isValidSortCondition(sort)) {
+            if (isExistSortCondition(sort)) {
                 if (isAsc(sort)) {
-                    orders.add(builder.asc(root.get(sort.getSortKey())));
+                    orders.add(builder.asc(root.get(sort.getSortProperty())));
                 } else if (isDesc(sort)) {
-                    orders.add(builder.desc(root.get(sort.getSortKey())));
+                    orders.add(builder.desc(root.get(sort.getSortProperty())));
                 }
             }
         }
@@ -194,11 +194,11 @@ public abstract class BaseService<T, R extends ResponseDto> {
     private Order[] sortToOrders(CriteriaBuilder builder, Root<T> root, List<SortCondition> sorts) {
         List<Order> orders = new ArrayList<>();
         for (SortCondition sort : sorts) {
-            if (isValidSortCondition(sort)) {
+            if (isExistSortCondition(sort)) {
                 if (isAsc(sort)) {
-                    orders.add(builder.asc(root.get(sort.getSortKey())));
+                    orders.add(builder.asc(root.get(sort.getSortProperty())));
                 } else if (isDesc(sort)) {
-                    orders.add(builder.desc(root.get(sort.getSortKey())));
+                    orders.add(builder.desc(root.get(sort.getSortProperty())));
                 }
             }
         }
@@ -206,8 +206,8 @@ public abstract class BaseService<T, R extends ResponseDto> {
         return orders.toArray(new Order[orders.size()]);
     }
 
-    private boolean isValidSortCondition(SortCondition sort) {
-        return !StringUtils.isEmpty(sort.getSortKey()) && !StringUtils.isEmpty(sort.getSortDirection().value());
+    private boolean isExistSortCondition(SortCondition sort) {
+        return !StringUtils.isEmpty(sort.getSortProperty()) && !StringUtils.isEmpty(sort.getSortDirection().value());
     }
 
     private boolean isAsc(SortCondition sort) {

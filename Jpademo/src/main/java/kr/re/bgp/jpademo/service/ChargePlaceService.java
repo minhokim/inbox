@@ -9,24 +9,50 @@ import kr.re.bgp.jpademo.dto.param.SearchCondition;
 import kr.re.bgp.jpademo.dto.param.SortCondition;
 import kr.re.bgp.jpademo.dto.param.SortDirectionEnum;
 import kr.re.bgp.jpademo.entity.ChargePlace;
+import kr.re.bgp.jpademo.mapper.BgpMapper;
 import kr.re.bgp.jpademo.repository.ChargePlaceRepository;
+import kr.re.bgp.jpademo.utils.ListFunctions;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResponseDto> {
     private final ChargePlaceRepository repository;
+    private final BgpMapper bgpMapper;
     protected ChargePlaceService(EntityManager entityManager,
                                  ModelMapper modelMapper,
-                                 ChargePlaceRepository repository) {
+                                 ChargePlaceRepository repository,
+                                 BgpMapper bgpMapper) {
         super(entityManager, modelMapper);
         this.repository = repository;
+        this.bgpMapper = bgpMapper;
     }
+
+    public Page<ChargePlaceResponseDto> listMyBatis(ListParam param) {
+        Map<String, Object> params = ListFunctions.buildQueryParam(param);
+
+        int pageNumber = param.getPage() - 1;
+        int pageSize = param.getSize();
+
+        List<ChargePlace> chargePlaces = bgpMapper.chargePlaces(params);
+        List<ChargePlaceResponseDto> responseDtoList = chargePlaces.stream()
+                .map(entity -> mapsObjToClass(entity, ChargePlaceResponseDto.class))
+                .collect(Collectors.toList());
+
+        int total = bgpMapper.chargePlaceTotalCount(params);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return new PageImpl<>(responseDtoList, pageable, total);
+    }
+
+
 
     public ChargePlace findTop(String sortKey, String direction) {
         return super.findTop(sortKey, direction);
@@ -53,7 +79,7 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
     private List<SortCondition> retrieveSorts() {
         List<SortCondition> sorts = new ArrayList<>();
         sorts.add(SortCondition.builder()
-                .sortKey("placeName")
+                .sortProperty("placeName")
                 .sortDirection(SortDirectionEnum.ASC)
                 .build()
         );
@@ -63,8 +89,8 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
 
     private ListParam retrieveListParam(List<SearchCondition> searches, List<SortCondition> sorts) {
         ListParam param = new ListParam();
-        param.withPage(1)
-                .withLimit(100)
+        param.withSize(1)
+                .withPage(100)
                 .withSearchConditions(searches)
                 .withSortConditions(sorts);
 

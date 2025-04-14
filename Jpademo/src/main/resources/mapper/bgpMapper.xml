@@ -2,6 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.re.bgp.jpademo.mapper.BgpMapper">
 
+    <sql id="totalCount">
+        SELECT COUNT(*) AS total_count
+    </sql>
 
+    <sql id="paging">
+        LIMIT #{size}
+        OFFSET (#{page} -1) * #{size}
+    </sql>
+
+    <sql id="chargePlaceWhere">
+        <where>
+            <if test="placeName != null and placeName != ''">
+                place_name LIKE CONCAT('%', #{placeName}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="chargePlaceTotalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        <include refid="totalCount"></include> FROM charge_place
+        <include refid="chargePlaceWhere"></include>
+    </select>
+
+    <select id="chargePlaces" resultType="kr.re.bgp.jpademo.entity.ChargePlace" parameterType="java.util.HashMap">
+        SELECT * FROM charge_place
+        <include refid="chargePlaceWhere"></include>
+        ORDER BY ${sortProperty} ${sortDirection}
+        <include refid="paging"></include>
+    </select>
 
 </mapper>

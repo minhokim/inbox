@@ -7,23 +7,23 @@ import java.util.List;
 
 @Data
 public class ListParam {
+    @NotNull(message = "Size is required")
+    private Integer size;
+
     @NotNull(message = "Page is required")
     private Integer page;
-
-    @NotNull(message = "Limit is required")
-    private Integer limit;
 
     private List<SearchCondition> searchConditions;
 
     private List<SortCondition> sortConditions;
 
-    public ListParam withPage(Integer v) {
-        this.page = v;
+    public ListParam withSize(Integer v) {
+        this.size = v;
         return this;
     }
 
-    public ListParam withLimit(Integer v) {
-        this.limit = v;
+    public ListParam withPage(Integer v) {
+        this.page = v;
         return this;
     }
 
