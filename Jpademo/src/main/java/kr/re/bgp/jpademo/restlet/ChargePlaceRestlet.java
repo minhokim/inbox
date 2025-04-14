@@ -35,7 +35,7 @@ public class ChargePlaceRestlet {
 
     @PostMapping(FIND_ALL_PATH)
     public ResponseEntity<Object> findAll() {
-        return ResponseEntity.ok(service.findByConditions());
+        return ResponseEntity.ok(service.findBySearchConditions());
     }
 
     @PostMapping(LIST_PATH)

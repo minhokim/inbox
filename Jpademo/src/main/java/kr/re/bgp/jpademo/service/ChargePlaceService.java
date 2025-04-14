@@ -58,7 +58,7 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
         return super.findTop(sortKey, direction);
     }
 
-    public Page<ChargePlace> findByConditions() {
+    public Page<ChargePlace> findBySearchConditions() {
         ListParam listParam = retrieveListParam(retrieveSearches(), retrieveSorts());
 
         return findAll(listParam);
