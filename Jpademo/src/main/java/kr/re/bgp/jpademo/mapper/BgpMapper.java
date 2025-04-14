@@ -1,6 +1,5 @@
 package kr.re.bgp.jpademo.mapper;
 
-import kr.re.bgp.jpademo.dto.param.ListParam;
 import kr.re.bgp.jpademo.entity.ChargePlace;
 import org.apache.ibatis.annotations.Mapper;
 
