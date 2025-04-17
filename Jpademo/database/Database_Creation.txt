@@ -1,7 +1,0 @@
-psql --host host.docker.internal -U postgres
-
-CREATE USER jpademo PASSWORD 'jpademo';
-
-GRANT jpademo to postgres;
-
-CREATE DATABASE jpademo OWNER jpademo TEMPLATE template0 LC_COLLATE 'C';
