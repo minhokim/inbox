@@ -1,9 +1,7 @@
 package kr.re.bgp.jpademo.dto.chargeplace;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import kr.re.bgp.jpademo.dto.ResponseDto;
-import kr.re.bgp.jpademo.entity.ChargePlace;
 import lombok.Data;
 
 import java.sql.Timestamp;
