@@ -1,4 +1,37 @@
 
+
+create table public.account
+(
+    account_id    bigint    default nextval('cid'::regclass) not null
+        constraint account_pk
+            primary key,
+    email         varchar(50),
+    name          varchar(50),
+    created       timestamp default now(),
+    password      varchar(100),
+    refresh_token varchar(100)
+);
+
+comment on table public.account is '계정';
+
+comment on column public.account.account_id is '계정ID';
+
+comment on column public.account.email is '계정 이메일';
+
+comment on column public.account.name is '계정명';
+
+comment on column public.account.created is '등록일시';
+
+comment on column public.account.password is 'Password';
+
+comment on column public.account.refresh_token is 'Refresh Token';
+
+alter table public.account
+    owner to jpademo;
+
+
+
+
 create table public.charge_place
 (
     place_id   bigint    default nextval('cid'::regclass) not null

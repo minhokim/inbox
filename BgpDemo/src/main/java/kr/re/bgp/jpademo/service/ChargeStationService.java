@@ -70,11 +70,6 @@ public class ChargeStationService extends BaseService<ChargeStation, ChargeStati
         return repository.findById(id).orElse(new ChargeStation());
     }
 
-    @Override
-    public ResponseDto retrieve(String id) {
-        return null;
-    }
-
     public void delete(Long stationId) {
         repository.deleteById(stationId);
     }

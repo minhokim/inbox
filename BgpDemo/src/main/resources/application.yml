@@ -57,5 +57,7 @@ spring:
   #          region.factory_class: jcache
 
 jwt:
-  private.key: classpath:bgpdemo.key
-  public.key: classpath:bgpdemo.pub
+  private:
+    key: classpath:bgpdemo.key
+  public:
+    key: classpath:bgpdemo.pub

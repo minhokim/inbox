@@ -108,11 +108,6 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
         return convertToDto(repository.findById(id).orElse(new ChargePlace()));
     }
 
-    @Override
-    public ResponseDto retrieve(String id) {
-        return null;
-    }
-
     private ChargePlace convertToEntity(BaseDto dto) {
         return mapsObjToClass(dto, ChargePlace.class);
     }

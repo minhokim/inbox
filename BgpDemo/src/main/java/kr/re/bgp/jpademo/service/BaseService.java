@@ -233,6 +233,4 @@ public abstract class BaseService<T, R extends ResponseDto> {
 
     public abstract ResponseDto retrieve(Long id);
 
-    public abstract ResponseDto retrieve(String id);
-
 }
