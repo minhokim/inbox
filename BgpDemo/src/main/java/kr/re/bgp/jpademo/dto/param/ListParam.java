@@ -17,6 +17,10 @@ public class ListParam {
 
     private List<SortCondition> sortConditions;
 
+    public Integer getPage() {
+        return this.page - 1;
+    }
+
     public ListParam withSize(Integer v) {
         this.size = v;
         return this;

@@ -8,7 +8,7 @@
 
     <sql id="paging">
         LIMIT #{size}
-        OFFSET (#{page} -1) * #{size}
+        OFFSET #{page} * #{size}
     </sql>
 
     <sql id="chargePlaceWhere">
@@ -20,15 +20,17 @@
     </sql>
 
     <select id="chargePlaceTotalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
-        <include refid="totalCount"></include> FROM charge_place
-        <include refid="chargePlaceWhere"></include>
+        <include refid="totalCount" /> FROM charge_place
+        <include refid="chargePlaceWhere" />
     </select>
 
     <select id="chargePlaces" resultType="kr.re.bgp.jpademo.entity.ChargePlace" parameterType="java.util.HashMap">
         SELECT * FROM charge_place
-        <include refid="chargePlaceWhere"></include>
-        ORDER BY ${sortProperty} ${sortDirection}
-        <include refid="paging"></include>
+        <include refid="chargePlaceWhere" />
+        <if test="sortProperty != null and sortProperty != ''">
+            ORDER BY ${sortProperty} ${sortDirection}
+        </if>
+        <include refid="paging" />
     </select>
 
 </mapper>

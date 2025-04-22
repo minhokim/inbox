@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResponseDto> {
     private final ChargePlaceRepository repository;
     private final BgpMapper bgpMapper;
+
     protected ChargePlaceService(EntityManager entityManager,
                                  ModelMapper modelMapper,
                                  ChargePlaceRepository repository,
@@ -38,21 +39,16 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
     public Page<ChargePlaceResponseDto> listMyBatis(ListParam param) {
         Map<String, Object> params = ListFunctions.buildQueryParam(param);
 
-        int pageNumber = param.getPage() - 1;
-        int pageSize = param.getSize();
-
         List<ChargePlace> chargePlaces = bgpMapper.chargePlaces(params);
         List<ChargePlaceResponseDto> responseDtoList = chargePlaces.stream()
                 .map(entity -> mapsObjToClass(entity, ChargePlaceResponseDto.class))
                 .collect(Collectors.toList());
 
         int total = bgpMapper.chargePlaceTotalCount(params);
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(param.getPage(), param.getSize());
 
         return new PageImpl<>(responseDtoList, pageable, total);
     }
-
-
 
     public ChargePlace findTop(String sortKey, String direction) {
         return super.findTop(sortKey, direction);
