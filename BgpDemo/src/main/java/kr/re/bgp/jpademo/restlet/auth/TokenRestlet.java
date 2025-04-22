@@ -1,6 +1,5 @@
 package kr.re.bgp.jpademo.restlet.auth;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/Auth")
 public class TokenRestlet {
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
-    private String issure;
+    private String issuer;
 
     @Autowired
     JwtEncoder encoder;
@@ -34,7 +33,7 @@ public class TokenRestlet {
                 .collect(Collectors.joining(" "));
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer(issure)
+                .issuer(issuer)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(authentication.getName())
