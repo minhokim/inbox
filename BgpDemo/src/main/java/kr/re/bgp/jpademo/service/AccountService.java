@@ -3,6 +3,7 @@ package kr.re.bgp.jpademo.service;
 import jakarta.persistence.EntityManager;
 import kr.re.bgp.jpademo.dto.BaseDto;
 import kr.re.bgp.jpademo.dto.ResponseDto;
+import kr.re.bgp.jpademo.dto.account.AccountCreateDto;
 import kr.re.bgp.jpademo.dto.account.AccountResponseDto;
 import kr.re.bgp.jpademo.entity.Account;
 import kr.re.bgp.jpademo.repository.AccountRepository;
@@ -39,4 +40,7 @@ public class AccountService extends BaseService<Account, AccountResponseDto> {
         return null;
     }
 
+    public void signUp(AccountCreateDto dto) {
+
+    }
 }

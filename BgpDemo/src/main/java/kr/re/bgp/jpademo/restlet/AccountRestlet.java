@@ -1,10 +1,13 @@
 package kr.re.bgp.jpademo.restlet;
 
 import kr.re.bgp.jpademo.dto.account.AccountCreateDto;
+import kr.re.bgp.jpademo.dto.account.AccountResponseDto;
 import kr.re.bgp.jpademo.dto.chargeplace.ChargePlaceCreateDto;
 import kr.re.bgp.jpademo.dto.param.ListParam;
+import kr.re.bgp.jpademo.entity.Account;
 import kr.re.bgp.jpademo.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/Account")
 public class AccountRestlet {
+    private static final String SIGN_UP = "/SignUp";
     private static final String FIND_TOP_PATH = "/FindTop";
     private static final String FIND_ALL_PATH = "/FindAll";
     private static final String LIST_PATH = "/List";
@@ -27,6 +32,13 @@ public class AccountRestlet {
     private static final String RETRIEVE_PATH = "/Retrieve/{accountId}";
 
     private final AccountService service;
+
+    @PostMapping(SIGN_UP)
+    public ResponseEntity<Object> signUp(@RequestBody AccountCreateDto dto) {
+        service.signUp(dto);
+
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping(LIST_PATH)
     public ResponseEntity<Object> list(@RequestBody ListParam param) {

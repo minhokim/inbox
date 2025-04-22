@@ -29,9 +29,9 @@ public class ChargePlaceRestlet {
 
     private final ChargePlaceService service;
 
-    @GetMapping(FIND_TOP_PATH)
-    public ResponseEntity<Object> findTop(String sortKey, String direction) {
-        return ResponseEntity.ok(Map.of("content", service.findTop(sortKey, direction)));
+    @PostMapping(FIND_TOP_PATH)
+    public ResponseEntity<Object> findTop(@RequestBody ListParam param) {
+        return ResponseEntity.ok(Map.of("content", service.findTop(param)));
     }
 
     @PostMapping(FIND_ALL_PATH)

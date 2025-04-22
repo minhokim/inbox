@@ -50,10 +50,6 @@ public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResp
         return new PageImpl<>(responseDtoList, pageable, total);
     }
 
-    public ChargePlace findTop(String sortKey, String direction) {
-        return super.findTop(sortKey, direction);
-    }
-
     public Page<ChargePlace> findBySearchConditions() {
         ListParam listParam = retrieveListParam(retrieveSearches(), retrieveSorts());
 

@@ -108,15 +108,33 @@ public abstract class BaseService<T, R extends ResponseDto> {
         return new PageImpl<>(resultList, pageable, total);
     }
 
-    public T findTop(String sortKey, String direction) {
+    public T findTop(ListParam param) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
 
         Root<T> root = criteriaQuery.from(entityClass);
         criteriaQuery.select(root);
 
-        Order[] orderArray = sortToOrders(builder, root, getSortConditions(sortKey, direction));
+        Predicate predicate = paramToPredicate(builder, root, param);
+        criteriaQuery.where(predicate);
+
+        Order[] orderArray = paramToOrders(builder, root, param);
         criteriaQuery.orderBy(orderArray);
+
+        TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
+        query.setFirstResult(0).setMaxResults(1);
+
+        List<T> resultList = query.getResultList();
+
+        return resultList.isEmpty() ? null : resultList.get(0);
+    }
+
+    public T findTop() {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
+
+        Root<T> root = criteriaQuery.from(entityClass);
+        criteriaQuery.select(root);
 
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
         query.setFirstResult(0).setMaxResults(1);
