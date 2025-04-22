@@ -63,11 +63,8 @@ public abstract class BaseService<T, R extends ResponseDto> {
         Order[] orderArray = paramToOrders(builder, root, param);
         criteriaQuery.orderBy(orderArray);
 
-        int pageNumber = param.getPage() - 1;
-        int pageSize = param.getSize();
-
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
-        query.setFirstResult(pageNumber * pageSize);
+        query.setFirstResult(param.getPage() * param.getSize());
         query.setMaxResults(param.getSize());
 
         List<T> resultList = query.getResultList();
@@ -76,7 +73,7 @@ public abstract class BaseService<T, R extends ResponseDto> {
                 .collect(Collectors.toList());
 
         long total = getTotalCount(builder, param, entityClass);
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(param.getPage(), param.getSize());
 
         return new PageImpl<>(responseDtoList, pageable, total);
     }
@@ -99,17 +96,14 @@ public abstract class BaseService<T, R extends ResponseDto> {
         Order[] orderArray = paramToOrders(builder, root, param);
         criteriaQuery.orderBy(orderArray);
 
-        int pageNumber = param.getSize() - 1;
-        int pageSize = param.getPage();
-
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
-        query.setFirstResult(pageNumber * pageSize);
+        query.setFirstResult(param.getSize() * param.getPage());
         query.setMaxResults(param.getPage());
 
         List<T> resultList = query.getResultList();
 
         long total = getTotalCount(builder, param, entityClass);
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(param.getSize(), param.getPage());
 
         return new PageImpl<>(resultList, pageable, total);
     }
@@ -121,7 +115,7 @@ public abstract class BaseService<T, R extends ResponseDto> {
         Root<T> root = criteriaQuery.from(entityClass);
         criteriaQuery.select(root);
 
-        Order[] orderArray = sortToOrders(builder, root, retrieveSort(sortKey, direction));
+        Order[] orderArray = sortToOrders(builder, root, getSortConditions(sortKey, direction));
         criteriaQuery.orderBy(orderArray);
 
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
@@ -132,7 +126,7 @@ public abstract class BaseService<T, R extends ResponseDto> {
         return resultList.isEmpty() ? null : resultList.get(0);
     }
 
-    private List<SortCondition> retrieveSort(String sortKey, String direction) {
+    private List<SortCondition> getSortConditions(String sortKey, String direction) {
         List<SortCondition> sorts = new ArrayList<>();
         sorts.add(SortCondition.builder()
                 .sortProperty(sortKey)
@@ -153,13 +147,13 @@ public abstract class BaseService<T, R extends ResponseDto> {
                 continue;
             }
 
-            if (isContains(search, likeKeys)) {
+            if (isContainSearchKey(search, likeKeys)) {
                 conditions.add(builder.like(root.get(search.getSearchKey()), "%" + search.getSearchValue() + "%"));
-            } else if (isContains(search, periodKeys)) {
-                if (isContains(search, "STARTDATE")) {
+            } else if (isContainSearchKey(search, periodKeys)) {
+                if (isContainSearchKey(search, "STARTDATE")) {
                     conditions.add(builder.greaterThanOrEqualTo(root.get("created"),
                             Timestamp.valueOf(search.getSearchValue() + " 00:00:00")));
-                } else if (isContains(search, "ENDDATE")) {
+                } else if (isContainSearchKey(search, "ENDDATE")) {
                     conditions.add(builder.lessThanOrEqualTo(root.get("created"),
                             Timestamp.valueOf(search.getSearchValue() + " 23:59:59")));
                 }
@@ -171,7 +165,7 @@ public abstract class BaseService<T, R extends ResponseDto> {
         return builder.and(conditions.toArray(new Predicate[conditions.size()]));
     }
 
-    private boolean isContains(SearchCondition search, String... searchKey) {
+    private boolean isContainSearchKey(SearchCondition search, String... searchKey) {
         return Arrays.stream(searchKey)
                 .anyMatch(l -> StringUtils.toRootUpperCase(search.getSearchKey()).contains(l));
     }
