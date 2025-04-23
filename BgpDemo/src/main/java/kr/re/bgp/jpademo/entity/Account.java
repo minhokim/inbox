@@ -2,6 +2,7 @@ package kr.re.bgp.jpademo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import kr.re.bgp.jpademo.service.auth.RoleEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +22,7 @@ public class Account {
     private String password;
     private String name;
     private String refreshToken;
+    private RoleEnum role;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
