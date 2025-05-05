@@ -4,7 +4,7 @@ public class DuckSimulator {
     public static void main(String[] args) {
         Duck mallard = new MallardDuck();
         mallard.performFly();
-        mallard.peformQuack();
+        mallard.performQuack();
 
         Duck model = new ModelDuck();
         model.performFly();
