@@ -24,6 +24,16 @@ public class Account {
     private String refreshToken;
     private RoleEnum role;
 
+    public Account withEmail(String email) {
+        this.setEmail(email);
+        return this;
+    }
+
+    public Account withPassword(String password) {
+        this.setPassword(password);
+        return this;
+    }
+
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
     @CreationTimestamp

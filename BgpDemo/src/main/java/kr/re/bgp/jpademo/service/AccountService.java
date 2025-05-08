@@ -46,15 +46,18 @@ public class AccountService extends BaseService<Account, AccountResponseDto> {
     }
 
     public void signUp(AccountCreateDto dto) {
-        if (accountRepository.findByEmail(dto.getEmail()).isPresent()) {
+        if (isExistUser(dto)) {
             throw new UserAlreadyExistException();
         }
 
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
-
         Account account = new Account();
-        account.setEmail(dto.getEmail());
-        account.setPassword(encodedPassword);
+        account.withEmail(dto.getEmail())
+                .withPassword(passwordEncoder.encode(dto.getPassword()));
+
         accountRepository.save(account);
+    }
+
+    private boolean isExistUser(AccountCreateDto dto) {
+        return accountRepository.findByEmail(dto.getEmail()).isPresent();
     }
 }
