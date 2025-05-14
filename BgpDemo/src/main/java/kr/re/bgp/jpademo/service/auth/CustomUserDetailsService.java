@@ -19,7 +19,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Account account = accountRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Account not found : " + username));
 
-
-        return null;
+        return new CustomUserDetails(account);
     }
 }

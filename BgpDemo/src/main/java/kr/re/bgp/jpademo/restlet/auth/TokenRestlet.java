@@ -3,6 +3,7 @@ package kr.re.bgp.jpademo.restlet.auth;
 import kr.re.bgp.jpademo.service.auth.TokenProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,5 +18,11 @@ public class TokenRestlet {
     public String token(Authentication authentication) {
         return tokenProviderService.createToken(authentication);
     }
+
+    @GetMapping("/hello")
+    public String hello(Authentication authentication) {
+        return "Hello, " + authentication.getName() + "!";
+    }
+
 
 }

@@ -22,8 +22,7 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-        switch (account.getRole()) {
+        switch (RoleEnum.valueOf(account.getRole())) {
             case ADMIN: authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN")); break;
             case MANAGER: authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER")); break;
             case USER: authorities.add(new SimpleGrantedAuthority("ROLE_USER")); break;

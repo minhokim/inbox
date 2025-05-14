@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ChargePlaceService extends BaseService<ChargePlace, ChargePlaceResponseDto> {
+public class ChargePlaceService extends CrudService<ChargePlace, ChargePlaceResponseDto> {
     private final ChargePlaceRepository repository;
     private final BgpMapper bgpMapper;
 

@@ -8,12 +8,13 @@ import kr.re.bgp.jpademo.dto.account.AccountResponseDto;
 import kr.re.bgp.jpademo.entity.Account;
 import kr.re.bgp.jpademo.exception.UserAlreadyExistException;
 import kr.re.bgp.jpademo.repository.AccountRepository;
+import kr.re.bgp.jpademo.service.auth.RoleEnum;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountService extends BaseService<Account, AccountResponseDto> {
+public class AccountService extends CrudService<Account, AccountResponseDto> {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -50,9 +51,10 @@ public class AccountService extends BaseService<Account, AccountResponseDto> {
             throw new UserAlreadyExistException();
         }
 
-        Account account = new Account();
-        account.withEmail(dto.getEmail())
-                .withPassword(passwordEncoder.encode(dto.getPassword()));
+        Account account = new Account()
+                .withEmail(dto.getEmail())
+                .withPassword(passwordEncoder.encode(dto.getPassword()))
+                .withRole(RoleEnum.USER);
 
         accountRepository.save(account);
     }

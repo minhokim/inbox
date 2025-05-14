@@ -24,13 +24,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class BaseService<T, R extends ResponseDto> {
+public abstract class CrudService<T, R extends ResponseDto> {
     private final EntityManager entityManager;
     private final ModelMapper modelMapper;
     private final Class<T> entityClass;
     private final Class<R> responseDtoClass;
 
-    protected BaseService(EntityManager entityManager, ModelMapper modelMapper) {
+    protected CrudService(EntityManager entityManager, ModelMapper modelMapper) {
         this.entityManager = entityManager;
         this.modelMapper = modelMapper;
 

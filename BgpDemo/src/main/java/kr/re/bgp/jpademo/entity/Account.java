@@ -22,7 +22,7 @@ public class Account {
     private String password;
     private String name;
     private String refreshToken;
-    private RoleEnum role;
+    private String role;
 
     public Account withEmail(String email) {
         this.setEmail(email);
@@ -31,6 +31,11 @@ public class Account {
 
     public Account withPassword(String password) {
         this.setPassword(password);
+        return this;
+    }
+
+    public Account withRole(RoleEnum role) {
+        this.setRole(role.value());
         return this;
     }
 

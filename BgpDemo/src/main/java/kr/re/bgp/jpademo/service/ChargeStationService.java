@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class ChargeStationService extends BaseService<ChargeStation, ChargeStationResponseDto> {
+public class ChargeStationService extends CrudService<ChargeStation, ChargeStationResponseDto> {
     private final ChargePlaceService chargePlaceService;
     private final ChargeStationRepository repository;
 
