@@ -1,5 +1,21 @@
 
 
+create table public.shedlock
+(
+    name       varchar(64) not null
+        primary key,
+    lock_until timestamp(3),
+    locked_at  timestamp(3),
+    locked_by  varchar(255)
+);
+
+comment on table public.shedlock is '스케줄 중복 처리 방지를 위한 Lock 정보를 담고 있는 테이블';
+
+alter table public.shedlock
+    owner to jpademo;
+
+
+
 create table public.account
 (
     account_id    bigint    default nextval('cid'::regclass) not null
