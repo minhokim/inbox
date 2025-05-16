@@ -40,24 +40,15 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-      # open-in-view: true(=default) ? ??, ?? Controller API ? ????? Transaction ? ????.
-      #               ?, API ??? ? ??? ??? ??, ? ???? DB Connection ? ???? ??? ??.
-    #               ???? ????? true? ????.
-    # open-in-view: false ? ????, ???? @Transactional ??? ????.
     open-in-view: true
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
         format_sql: true
-      # Hibernate cache ??.
-  #        cache:
-  #          use_second_level_cache: true
-  #          use_query_cache: true
-  #          region.factory_class: jcache
 
 jwt:
   private:
-    key: classpath:bgpdemo.key
+    key: classpath:jwt/private_key.key
   public:
-    key: classpath:bgpdemo.pub
+    key: classpath:jwt/public_key.pub

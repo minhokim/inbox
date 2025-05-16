@@ -9,11 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class CustomUserDetails implements UserDetails {
-    private Account account;
+    private final Account account;
     private Collection<? extends GrantedAuthority> authorities;
+    private Map<String, Object> attributes;
 
     public CustomUserDetails(Account account) {
         this.account = account;
@@ -39,5 +41,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return account.getEmail();
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
     }
 }
