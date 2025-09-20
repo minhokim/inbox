@@ -1,7 +1,5 @@
 package kr.re.bgp.jpademo.pattern.Iterator;
 
-import lombok.Data;
-
 import java.util.Iterator;
 
 public class BookShelf implements Iterable<Book> {
