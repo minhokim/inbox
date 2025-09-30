@@ -92,7 +92,7 @@ public class DatetimeTest {
 
     @Test
     public void convertTimeStampToStringTest() {
-        String currentTimeStampStr = convertTimeStampToString(new Timestamp(System.currentTimeMillis()), "yyyyMMdd");
+        String currentTimeStampStr = convertTimeStampToString(new Timestamp(System.currentTimeMillis()), "yyyy-MM-dd");
         System.out.println(currentTimeStampStr);
     }
 
@@ -132,8 +132,8 @@ public class DatetimeTest {
 
     @Test
     public void diffTime() {
-        String strDateStart = "2024-08-05 10:30:05";
-        String strDateEnd = "2024-08-07 12:37:35";
+        String strDateStart = "2025-09-15 09:40:05";
+        String strDateEnd = "2025-09-15 09:40:35";
         Timestamp start = Timestamp.valueOf(strDateStart);
         Timestamp end = Timestamp.valueOf(strDateEnd);
 
@@ -145,11 +145,13 @@ public class DatetimeTest {
 
         System.out.println(end.compareTo(start));
 
+        long diffSec = (diff / 1000);
         long diffMinutes = (diff / 1000) / 60;
         long diffHours = ((diff / 1000) / 60) / 60;
         long diffDays = (((diff / 1000) / 60) / 60) / 24;
 
 
+        System.out.println("diffSec : " + diffSec);
         System.out.println("diffHours : " + diffHours);
         System.out.println("diffDays : " + diffDays);
 
@@ -376,6 +378,18 @@ public class DatetimeTest {
 
         String nowStr = now.toString();
         System.out.println(nowStr);
+    }
+
+    @Test
+    public void getDayOrNight() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        LocalTime currentTime = Instant.ofEpochMilli(timestamp.getTime()).atZone(ZoneId.systemDefault()).toLocalTime();
+
+        LocalTime dayStart = LocalTime.of(9, 0);
+        LocalTime dayEnd = LocalTime.of(17, 0);
+
+        System.out.println(!currentTime.isBefore(dayStart) && currentTime.isBefore(dayEnd));
     }
 
 }
