@@ -392,4 +392,9 @@ public class DatetimeTest {
         System.out.println(!currentTime.isBefore(dayStart) && currentTime.isBefore(dayEnd));
     }
 
+    @Test
+    public void getSeason() {
+
+    }
+
 }
