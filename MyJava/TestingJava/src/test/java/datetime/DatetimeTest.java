@@ -13,6 +13,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class DatetimeTest {
 
@@ -386,6 +387,8 @@ public class DatetimeTest {
 
         LocalTime currentTime = Instant.ofEpochMilli(timestamp.getTime()).atZone(ZoneId.systemDefault()).toLocalTime();
 
+        System.out.println(currentTime);
+
         LocalTime dayStart = LocalTime.of(9, 0);
         LocalTime dayEnd = LocalTime.of(17, 0);
 
@@ -394,6 +397,36 @@ public class DatetimeTest {
 
     @Test
     public void getSeason() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        LocalDateTime currentDateTime = Instant.ofEpochMilli(timestamp.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        int currentMonth = currentDateTime.getMonthValue();
+
+        String timeString = "2025-08-01T19:00:04.112";
+        LocalDateTime dateTime = LocalDateTime.parse(timeString);
+        int month = dateTime.getMonthValue();
+        int hour = dateTime.getHour();
+
+        HashMap<String, String> seasonLoadMap = new HashMap<>();
+
+        if (month >= 6 && month <= 8) {
+            seasonLoadMap.put("seasonEnum", "SUMMER");
+
+            if ((hour >= 9 && hour < 10) || (hour >= 12 && hour < 13) || (hour >= 17 && hour < 23)) {
+                seasonLoadMap.put("loadEnum", "MIDDLE");
+            } else if ((hour >= 10 && hour < 12) || (hour >= 13 && hour < 17)) {
+                seasonLoadMap.put("loadEnum", "PEAK");
+            } else {
+                seasonLoadMap.put("loadEnum", "LIGHT");
+            }
+
+        } else if ((month >= 3 && month <= 5) || (month >= 9 && month <= 10)) {
+            seasonLoadMap.put("season", "SPRING_FALL");
+        } else {
+            seasonLoadMap.put("season", "WINTER");
+        }
+
+        System.out.println(seasonLoadMap);
 
     }
 
